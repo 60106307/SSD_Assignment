@@ -54,6 +54,12 @@ public class UserLogin {
     private void authenticate() {
         String username = usernameField.getText();
         String password = passwordField.getText();
+
+        if (!ValidationUtils.validateNoScript(username) && !ValidationUtils.validateNoScript(password)) {
+            showAlert("Invalid Input", "Input contains invalid characters!");
+            return;
+        }
+
         Connection con = DBUtils.establishConnection();
         String query = "SELECT * FROM users WHERE username=?;";
         try {
@@ -73,8 +79,10 @@ public class UserLogin {
 
                 String hashedPassword= PasswordUtils.generateHash(password, salt);
                 if(dbPass.equals(hashedPassword)){
-                    UserChangePassword changePassword = new UserChangePassword(stage, username);
-                    changePassword.initializeComponents();
+                    //successfull login, redirect to main page
+                    String role= rs.getString("role");
+                    MainPage mainPage = new MainPage(stage, username, role);
+                    mainPage.initializeComponents();
                 }else {
                     showAlert("Authentication Failed", "Invalid username or password.");
                 }
