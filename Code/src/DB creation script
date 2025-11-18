@@ -1,9 +1,14 @@
+Manager login: manager, admin123
+Renter login: renter, user123
+Owner login: owner, owner123
+
 CREATE TABLE IF NOT EXISTS users (
     username VARCHAR(100) NOT NULL PRIMARY KEY,
     password VARCHAR(255) NOT NULL,
     role VARCHAR(50) NOT NULL,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
+    phone VARCHAR(100) NOT NULL,
     salt VARCHAR(255) NOT NULL,
     companyName VARCHAR(100)
 );

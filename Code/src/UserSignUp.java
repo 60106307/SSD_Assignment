@@ -22,6 +22,7 @@ public class UserSignUp {
     private ComboBox<String> roleField = new ComboBox<>();
     private TextField nameField = new TextField();
     private TextField emailField = new TextField();
+    private TextField phoneField = new TextField();
     private TextField companyNameField = new TextField();
 
     private Stage stage;
@@ -58,6 +59,7 @@ public class UserSignUp {
                 new Label("Select Role:"), roleField,
                 new Label("Name:"), nameField,
                 new Label("Email:"), emailField,
+                new Label("Phone:"), phoneField,
                 companyLabel, companyNameField,
                 loginButton
         );
@@ -72,7 +74,7 @@ public class UserSignUp {
             companyLabel.setVisible(isManager);
         });
 
-        signUpScene = new Scene(signUpLayout, 300, 400);
+        signUpScene = new Scene(signUpLayout, 300, 500);
         stage.setTitle("User Sign up");
         stage.setScene(signUpScene);
         stage.show();
@@ -84,17 +86,42 @@ public class UserSignUp {
         String role = roleField.getValue();
         String name = nameField.getText();
         String email = emailField.getText();
+        String phone = phoneField.getText();
         String companyName = null;
         if (role.equals("Manager")) {
             companyName = companyNameField.getText();
         }
+        //validating fields before adding to db
+        if (!ValidationUtils.validateUsername(username)) {
+            showAlert("Invalid Input", "Username must be 2-10 lowercase letters, digits or hyphens.");
+            return;
+        }
+
+        if (!ValidationUtils.validateEmail(email)) {
+            showAlert("Invalid Input", "Email is invalid!");
+            return;
+        }
+
+        if (!ValidationUtils.validateQaPhoneNumber(phone)) {
+            showAlert("Invalid Input", "Phone number must follow Qatar format (+974XXXXXXXX) Or (974)XXXXXXXX.");
+            return;
+        }
+
+        //check that all fields have no scripts
+        if (!ValidationUtils.validateNoScript(name) && !ValidationUtils.validateNoScript(email) && !ValidationUtils.validateNoScript(phone) && !ValidationUtils.validateNoScript(username) && !ValidationUtils.validateNoScript(password)) {
+            showAlert("Invalid Input", "Input contains invalid characters!");
+            return;
+        }
+
+
+
 
         byte[] salt = PasswordUtils.createSalt();
         String hashedPassword = PasswordUtils.generateHash(password, salt);
         String saltString = Base64.getEncoder().encodeToString(salt);
 
         Connection con = DBUtils.establishConnection();
-        String query = "INSERT INTO `users` (`username`, `password`, `role`, `name`, `email`, `salt`, `companyName`) VALUES (?, ?, ?, ?, ?, ?, ?);";
+        String query = "INSERT INTO `users` (`username`, `password`, `role`, `name`, `email`,`phone`, `salt`, `companyName`) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
         try {
             PreparedStatement statement = con.prepareStatement(query);
             statement.setString(1, username);
@@ -102,15 +129,15 @@ public class UserSignUp {
             statement.setString(3, role);
             statement.setString(4, name);
             statement.setString(5, email);
-            statement.setString(6, saltString);
-            statement.setString(7, companyName);
+            statement.setString(6, phone);
+            statement.setString(7, saltString);
+            statement.setString(8, companyName);
             int rs = statement.executeUpdate();
 
             if (rs == 1) {
-                showAlert("Success", "User registered!");
-
                 UserChangePassword changePassword = new UserChangePassword(stage, username);
                 changePassword.initializeComponents();
+
             } else {
                 showAlert("Authentication Failed", "Failed to register the user");
             }
@@ -130,4 +157,5 @@ public class UserSignUp {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
 }

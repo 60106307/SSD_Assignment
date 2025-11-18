@@ -1,7 +1,7 @@
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class validationUtils {
+public class ValidationUtils {
     public static boolean validateEmail(String email) {
         String regex = "^[\\w-\\.]+@([\\w-]+\\.)[\\w-]{2,63}$";
         Pattern pattern = Pattern.compile(regex);

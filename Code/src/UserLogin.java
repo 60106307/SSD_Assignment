@@ -45,7 +45,7 @@ public class UserLogin {
                 new Label("Password:"), passwordField,
                 loginButton,orLabel, signUpButton);
 
-        loginScene = new Scene(loginLayout, 300, 300);
+        loginScene = new Scene(loginLayout, 300, 400);
         stage.setTitle("User Login");
         stage.setScene(loginScene);
         stage.show();
