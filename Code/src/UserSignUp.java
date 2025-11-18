@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ComboBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -18,9 +19,10 @@ public class UserSignUp {
     private Scene signUpScene;
     private TextField usernameField = new TextField();
     private PasswordField passwordField = new PasswordField();
-    private TextField roleField = new TextField();
-    private TextField firstNameField = new TextField();
-    private TextField lastNameField = new TextField();
+    private ComboBox<String> roleField = new ComboBox<>();
+    private TextField nameField = new TextField();
+    private TextField emailField = new TextField();
+    private TextField companyNameField = new TextField();
 
     private Stage stage;
 
@@ -42,13 +44,33 @@ public class UserSignUp {
                 }
             }
         });
+        //role combo box to select from options
+        roleField.getItems().addAll("Manager", "Renter", "Owner");
+        roleField.setValue("Renter");
+
+        //company label to make it dynamic
+        Label companyLabel = new Label("Company Name:");
+
         //The text added and the signuP button
-        signUpLayout.getChildren().addAll(new Label("Username:"), usernameField,
+        signUpLayout.getChildren().addAll(
+                new Label("Username:"), usernameField,
                 new Label("Password:"), passwordField,
-                new Label("Role:"), roleField,
-                new Label("First Name:"), firstNameField,
-                new Label("Last Name:"), lastNameField,
-                loginButton);
+                new Label("Select Role:"), roleField,
+                new Label("Name:"), nameField,
+                new Label("Email:"), emailField,
+                companyLabel, companyNameField,
+                loginButton
+        );
+        companyLabel.setVisible(false);
+        companyNameField.setVisible(false);
+
+        // listener to show/hide company name
+        roleField.valueProperty().addListener((observable, oldValue, newValue) -> {
+            boolean isManager ="Manager".equals(newValue);
+            //if manager is selected it will shjow
+            companyNameField.setVisible(isManager);
+            companyLabel.setVisible(isManager);
+        });
 
         signUpScene = new Scene(signUpLayout, 300, 400);
         stage.setTitle("User Sign up");
@@ -59,27 +81,32 @@ public class UserSignUp {
     private void registerUser() throws NoSuchAlgorithmException {
         String username = usernameField.getText();
         String password = passwordField.getText();
-        String role = roleField.getText();
-        String firstName = firstNameField.getText();
-        String lastName = lastNameField.getText();
+        String role = roleField.getValue();
+        String name = nameField.getText();
+        String email = emailField.getText();
+        String companyName = null;
+        if (role.equals("Manager")) {
+            companyName = companyNameField.getText();
+        }
 
-        byte[] salt= PasswordUtils.createSalt();
-        String hashedPassword= PasswordUtils.generateHash(password,salt);
+        byte[] salt = PasswordUtils.createSalt();
+        String hashedPassword = PasswordUtils.generateHash(password, salt);
         String saltString = Base64.getEncoder().encodeToString(salt);
 
         Connection con = DBUtils.establishConnection();
-        String query = "INSERT INTO `users` (`username`, `password`, `role`, `firstname`, `lastname`, `salt`) VALUES (?, ?, ?, ?, ?, ?);";
+        String query = "INSERT INTO `users` (`username`, `password`, `role`, `name`, `email`, `salt`, `companyName`) VALUES (?, ?, ?, ?, ?, ?, ?);";
         try {
             PreparedStatement statement = con.prepareStatement(query);
             statement.setString(1, username);
             statement.setString(2, hashedPassword);
             statement.setString(3, role);
-            statement.setString(4, firstName);
-            statement.setString(5, lastName);
+            statement.setString(4, name);
+            statement.setString(5, email);
             statement.setString(6, saltString);
+            statement.setString(7, companyName);
             int rs = statement.executeUpdate();
 
-            if (rs ==1) {
+            if (rs == 1) {
                 showAlert("Success", "User registered!");
 
                 UserChangePassword changePassword = new UserChangePassword(stage, username);
