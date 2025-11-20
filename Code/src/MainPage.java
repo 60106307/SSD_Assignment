@@ -47,6 +47,17 @@ public class MainPage {
             }
         });
 
+        //appointment button
+        Button Appointment = new Button("View Appointment");
+        Appointment.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                //go to appointment page
+                AppointmentPage appointmentPage = new AppointmentPage(stage, username, role);
+                AppointmentPage.initializeComponents();
+            }
+        });
+
 
 
         MainPageLayout.getChildren().addAll(

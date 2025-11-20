@@ -55,4 +55,3 @@ VALUES
 ('114 Education City, Doha', 1, 1, 50, 'Student Studio', 'Ideal for university students.', 7000, 'RENTED', 'UNFURNISHED', 'owner', 'manager10'),
 ('115 The Pearl, Doha', 4, 3, 200, 'Luxury Penthouse', 'Top-floor penthouse with balcony.', 40000, 'AVAILABLE', 'FURNISHED', 'owner', 'manager');
 
-

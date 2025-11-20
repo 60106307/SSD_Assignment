@@ -113,9 +113,6 @@ public class UserSignUp {
             return;
         }
 
-
-
-
         byte[] salt = PasswordUtils.createSalt();
         String hashedPassword = PasswordUtils.generateHash(password, salt);
         String saltString = Base64.getEncoder().encodeToString(salt);
@@ -157,5 +154,4 @@ public class UserSignUp {
         alert.setContentText(content);
         alert.showAndWait();
     }
-
 }

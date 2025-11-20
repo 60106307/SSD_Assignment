@@ -8,9 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 import java.util.ArrayList;
-
 
 public class ListingPage {
     private Scene ListingPageScene;
@@ -49,9 +47,7 @@ public class ListingPage {
 
         ListingPageLayout.getChildren().addAll(
                 new Label("Listings"), mainPage
-
         );
-
 
         // get listings based on role
         ArrayList<PropertyListing> listings = getPropertyListings(role);
