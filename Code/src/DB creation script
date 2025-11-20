@@ -1,6 +1,6 @@
-Manager login: manager, admin123
-Renter login: renter, user123
-Owner login: owner, owner123
+-- Manager login: manager, admin123
+-- Renter login: renter, user123
+-- Owner login: owner, owner123
 
 CREATE TABLE IF NOT EXISTS users (
     username VARCHAR(100) NOT NULL PRIMARY KEY,
@@ -12,3 +12,47 @@ CREATE TABLE IF NOT EXISTS users (
     salt VARCHAR(255) NOT NULL,
     companyName VARCHAR(100)
 );
+
+CREATE TABLE IF NOT EXISTS property_listings (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    address VARCHAR(255) NOT NULL,
+    nOfBedrooms INT NOT NULL,
+    nOfBathrooms INT NOT NULL,
+    size INT NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    price DOUBLE NOT NULL,
+    status VARCHAR(50) NOT NULL,
+    furnitureType VARCHAR(50) NOT NULL,
+    ownerUsername VARCHAR(255),
+    managerUsername VARCHAR(255),
+    creationDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    lastUpdateDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+INSERT INTO `users` (`username`, `password`, `role`, `name`, `email`, `phone`, `salt`, `companyName`) VALUES
+('manager', 'XdQqJl0i2G0jqgRLS2rD6FPek7vIe4XgX7tnWA3Wf54=', 'Manager', 'Manager Admin', 'admin@gmail.com', '+97412345678', 'iEMTIW/HkbxAvm6pELfWZlUnqLU=', 'ABH'),
+('owner', 'ZF+YtghbWR4HMXfxeSsBG6VXE5drBM+mhOMv2zBoFXQ=', 'Owner', 'Rawana', 'rawana@gmail.com', '+97422223333', 'ZTvX0s2DlIln+bmYiQWo19jdKhI=', NULL),
+('renter', '8gHfhCsxoO2g8bW4331PvJnmVnWST1xZgXpaqhxUBRw=', 'Renter', 'Asma', 'asma@gmail.com', '+97411112222', 'tLJixW8HC2QAL6PHpXWG1zfSqKs=', NULL);
+
+
+INSERT INTO property_listings
+(address, nOfBedrooms, nOfBathrooms, size, title, description, price, status, furnitureType, ownerUsername, managerUsername)
+VALUES
+('101 Main St, Doha', 3, 2, 120, 'Cozy Family Apartment', 'A quiet family-friendly apartment.', 12000, 'AVAILABLE', 'FURNISHED', 'owner', 'manager'),
+('102 West Bay, Doha', 2, 1, 80, 'Modern Studio', 'Ideal for young professionals.', 9000, 'RENTED', 'UNFURNISHED', 'owner2', 'manager'),
+('103 Pearl St, Doha', 4, 3, 200, 'Luxury Villa', 'Spacious villa with pool.', 35000, 'AVAILABLE', 'SEMI_FURNISHED', 'owner3', 'manager'),
+('104 Aspire Zone, Doha', 1, 1, 60, 'Compact Apartment', 'Perfect for students.', 7000, 'AVAILABLE', 'UNFURNISHED', 'owner4', 'manager'),
+('105 The Pearl, Doha', 3, 2, 150, 'Sea View Apartment', 'Stunning sea view.', 20000, 'RENTED', 'FURNISHED', 'owner5', 'manager'),
+('106 Al Waab St, Doha', 2, 2, 100, 'Quiet Neighborhood', 'Close to shops and schools.', 11000, 'AVAILABLE', 'FURNISHED', 'owner', 'manager6'),
+('107 Lusail City, Doha', 3, 2, 130, 'Modern Villa', 'Brand new villa with garden.', 25000, 'AVAILABLE', 'SEMI_FURNISHED', 'owner7', 'manager2'),
+('108 Al Sadd, Doha', 1, 1, 55, 'Studio Apartment', 'Perfect for working professionals.', 8000, 'RENTED', 'UNFURNISHED', 'owner', 'manager3'),
+('109 The Pearl, Doha', 4, 3, 180, 'Family Home', 'Spacious and bright.', 30000, 'AVAILABLE', 'FURNISHED', 'owner8', 'manager4'),
+('110 Al Rayyan, Doha', 2, 1, 90, 'Cozy Apartment', 'Affordable and comfortable.', 9500, 'AVAILABLE', 'UNFURNISHED', 'owner', 'manager5'),
+('111 Al Khor, Doha', 3, 2, 125, 'Sunny Apartment', 'Bright and airy.', 13000, 'AVAILABLE', 'FURNISHED', 'owner', 'manager7'),
+('112 Doha Marina, Doha', 2, 1, 85, 'Modern Flat', 'Close to the marina.', 10000, 'RENTED', 'SEMI_FURNISHED', 'owner', 'manager8'),
+('113 Al Wakra, Doha', 3, 2, 140, 'Spacious Apartment', 'Great for families.', 15000, 'AVAILABLE', 'FURNISHED', 'owner', 'manager9'),
+('114 Education City, Doha', 1, 1, 50, 'Student Studio', 'Ideal for university students.', 7000, 'RENTED', 'UNFURNISHED', 'owner', 'manager10'),
+('115 The Pearl, Doha', 4, 3, 200, 'Luxury Penthouse', 'Top-floor penthouse with balcony.', 40000, 'AVAILABLE', 'FURNISHED', 'owner', 'manager');
+
+

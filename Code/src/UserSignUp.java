@@ -135,8 +135,8 @@ public class UserSignUp {
             int rs = statement.executeUpdate();
 
             if (rs == 1) {
-                UserChangePassword changePassword = new UserChangePassword(stage, username);
-                changePassword.initializeComponents();
+                MainPage mainPage = new MainPage(stage, username, role);
+                mainPage.initializeComponents();
 
             } else {
                 showAlert("Authentication Failed", "Failed to register the user");
