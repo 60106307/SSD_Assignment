@@ -91,7 +91,7 @@ public class UserSignUp {
         if (role.equals("Manager")) {
             companyName = companyNameField.getText();
         }
-        //validating fields before adding to db
+        //input validation for fields before adding to db
         if (!ValidationUtils.validateUsername(username)) {
             showAlert("Invalid Input", "Username must be 2-10 lowercase letters, digits or hyphens.");
             return;
