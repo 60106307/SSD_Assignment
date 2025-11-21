@@ -156,7 +156,6 @@ public class ListingPage {
                 return;
             }
 
-            
             final Button addButton = new Button("Add Listing");
             addButton.setOnAction(e -> {
                 try {

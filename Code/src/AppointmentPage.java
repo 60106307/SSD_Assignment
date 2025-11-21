@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 
@@ -45,8 +46,10 @@ public class AppointmentPage {
             }
         });
 
+        Label pageTitle = new Label("Appointments");
+        pageTitle.setFont(new Font("Arial", 20));
         AppointmentPageLayout.getChildren().addAll(
-                new Label("Appointment"), mainPage
+                pageTitle, mainPage
         );
 
         // get Appointments based on role

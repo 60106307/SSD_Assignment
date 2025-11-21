@@ -7,11 +7,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 
 public class BookAppointmentPage {
-    private Scene AppointmentPageScene;
+    private Scene BookAppointmentPageScene;
     private Stage stage;
     private String username;
     private String role;
@@ -47,72 +48,20 @@ public class BookAppointmentPage {
             }
         });
 
+        Label pageTitle = new Label("Book Appointment");
+        pageTitle.setFont(new Font("Arial", 20));
         AppointmentPageLayout.getChildren().addAll(
-                new Label("Appointment"), mainPage
+                pageTitle, mainPage, new Label(listingId)
         );
 
-        // get Appointments based on role
-        //HERE
-//        ArrayList<Appointment> appointments = getAppointments(role);
-
-        // Create table
-        TableView<Appointment> table = new TableView<>();
-
-        //table.setEditable(true);
-//        TableColumn title = new TableColumn("Title");
-//        TableColumn description = new TableColumn("Description");
-//        TableColumn address = new TableColumn("Address");
-//        TableColumn bedrooms = new TableColumn("Bedrooms");
-//        TableColumn bathrooms = new TableColumn("Bathrooms");
-//        TableColumn size = new TableColumn("Size");
-//        TableColumn price = new TableColumn("Price");
-//        TableColumn status = new TableColumn("Status");
-//        TableColumn furnitureType = new TableColumn("Furniture type");
-
-//        table.getColumns().addAll(
-//                title, description, address, bedrooms, bathrooms, size, price, status, furnitureType
-//        );
-
-        // Bind columns to Appointment fields
-//        title.setCellValueFactory(new PropertyValueFactory<>("title"));
-//        description.setCellValueFactory(new PropertyValueFactory<>("description"));
-//        address.setCellValueFactory(new PropertyValueFactory<>("address"));
-//        bedrooms.setCellValueFactory(new PropertyValueFactory<>("nOfBedrooms"));
-//        bathrooms.setCellValueFactory(new PropertyValueFactory<>("nOfBathrooms"));
-//        size.setCellValueFactory(new PropertyValueFactory<>("size"));
-//        price.setCellValueFactory(new PropertyValueFactory<>("price"));
-//        status.setCellValueFactory(new PropertyValueFactory<>("status"));
-//        furnitureType.setCellValueFactory(new PropertyValueFactory<>("furnitureType"));
-
-        // Convert ArrayList to ObservableList
-        //HERE
-//        ObservableList<Appointment> data = FXCollections.observableArrayList(appointments);
-
-        // Add data to the table
-        //HERE
-//        table.setItems(data);
 
 
-        AppointmentPageLayout.getChildren().addAll(table);
 
-
-        AppointmentPageScene = new Scene(AppointmentPageLayout, 600, 600);
-        stage.setTitle("Appointments");
-        stage.setScene(AppointmentPageScene);
+        BookAppointmentPageScene = new Scene(AppointmentPageLayout, 600, 600);
+        stage.setTitle("Book Appointment");
+        stage.setScene(BookAppointmentPageScene);
         stage.show();
     }
-
-    //HERE
-
-//    private ArrayList<Appointment> getAppointment(String role) {
-//        if (role.equals("Renter")) {
-//            //gets all Appointments
-//            return Appointment.getAllAppointments();
-//        } else {
-//            //gets his Appointments using get Appointment per role method (owner or manager)
-//            return Appointment.getAppointmentsByRole(role, username);
-//        }
-//    }
 
 
 }
