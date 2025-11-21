@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 CREATE TABLE IF NOT EXISTS property_listings (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id String NOT NULL PRIMARY KEY,
     address VARCHAR(255) NOT NULL,
     nOfBedrooms INT NOT NULL,
     nOfBathrooms INT NOT NULL,

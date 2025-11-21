@@ -50,7 +50,8 @@ public class AppointmentPage {
         );
 
         // get Appointments based on role
-        ArrayList<Appointment> appointments = getAppointments(role);
+        //HERE
+//        ArrayList<Appointment> appointments = getAppointments(role);
 
         // Create table
         TableView<Appointment> table = new TableView<>();
@@ -82,10 +83,12 @@ public class AppointmentPage {
 //        furnitureType.setCellValueFactory(new PropertyValueFactory<>("furnitureType"));
 
         // Convert ArrayList to ObservableList
-        ObservableList<Appointment> data = FXCollections.observableArrayList(appointments);
+        //HERE
+//        ObservableList<Appointment> data = FXCollections.observableArrayList(appointments);
 
         // Add data to the table
-        table.setItems(data);
+        //HERE
+//        table.setItems(data);
 
 
         AppointmentPageLayout.getChildren().addAll(table);
@@ -97,15 +100,17 @@ public class AppointmentPage {
         stage.show();
     }
 
-    private ArrayList<Appointment> getAppointment(String role) {
-        if (role.equals("Renter")) {
-            //gets all Appointments
-            return Appointment.getAllAppointments();
-        } else {
-            //gets his Appointments using get Appointment per role method (owner or manager)
-            return Appointment.getAppointmentsByRole(role, username);
-        }
-    }
+    //HERE
+
+//    private ArrayList<Appointment> getAppointment(String role) {
+//        if (role.equals("Renter")) {
+//            //gets all Appointments
+//            return Appointment.getAllAppointments();
+//        } else {
+//            //gets his Appointments using get Appointment per role method (owner or manager)
+//            return Appointment.getAppointmentsByRole(role, username);
+//        }
+//    }
 
 
 }

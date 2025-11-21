@@ -8,6 +8,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Callback;
+
 import java.util.ArrayList;
 
 public class ListingPage {
@@ -65,9 +67,9 @@ public class ListingPage {
         TableColumn price = new TableColumn("Price");
         TableColumn status = new TableColumn("Status");
         TableColumn furnitureType = new TableColumn("Furniture type");
-
+        TableColumn bookAppointmentCol = new TableColumn<>("Book Appointment");
         table.getColumns().addAll(
-                title, description, address, bedrooms, bathrooms, size, price, status, furnitureType
+                title, description, address, bedrooms, bathrooms, size, price, status, furnitureType, bookAppointmentCol
         );
 
         // Bind columns to PropertyListing fields
@@ -81,7 +83,9 @@ public class ListingPage {
         status.setCellValueFactory(new PropertyValueFactory<>("status"));
         furnitureType.setCellValueFactory(new PropertyValueFactory<>("furnitureType"));
 
-        // Convert ArrayList to ObservableList
+
+
+            // Convert ArrayList to ObservableList
         ObservableList<PropertyListing> data = FXCollections.observableArrayList(listings);
 
         // Add data to the table

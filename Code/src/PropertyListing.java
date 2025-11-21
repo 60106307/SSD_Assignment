@@ -5,8 +5,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class PropertyListing {
+    private String id;
     private String address;
     private int nOfBedrooms;
     private int nOfBathrooms;
@@ -20,6 +22,7 @@ public class PropertyListing {
     private String managerUsername;
 
     public PropertyListing(String address, int nOfBedrooms, int nOfBathrooms, int size, String title, String description, double price, Status status, FurnitureType furnitureType, String ownerUsername, String managerUsername) {
+        this.id = UUID.randomUUID().toString();
         this.address = address;
         this.nOfBedrooms = nOfBedrooms;
         this.nOfBathrooms = nOfBathrooms;
@@ -36,29 +39,28 @@ public class PropertyListing {
     public static void createPropertyListings(PropertyListing propertyListing){
         //creates listing and adds it to Sql
         Connection con = DBUtils.establishConnection();
-        String query = "INSERT INTO `property_listings` (`address`, `nOfBedrooms`, `nOfBathrooms`, `size`, `title`, `description`, `price`, `status`, `furnitureType`, `ownerUsername`, `managerUsername`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        String query = "INSERT INTO `property_listings` (`id`, `address`, `nOfBedrooms`, `nOfBathrooms`, `size`, `title`, `description`, `price`, `status`, `furnitureType`, `ownerUsername`, `managerUsername`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         try {
             PreparedStatement statement = con.prepareStatement(query);
-            statement.setString(1, propertyListing.address);
-            statement.setInt(2, propertyListing.nOfBedrooms);
-            statement.setInt(3, propertyListing.nOfBathrooms);
-            statement.setInt(4, propertyListing.size);
-            statement.setString(5, propertyListing.title);
-            statement.setString(6, propertyListing.description);
-            statement.setDouble(7, propertyListing.price);
-            statement.setString(8, propertyListing.status.toString());
-            statement.setString(9, propertyListing.furnitureType.toString());
-            statement.setString(10, propertyListing.ownerUsername);
-            statement.setString(11, propertyListing.managerUsername);
+            statement.setString(1, propertyListing.id);
+            statement.setString(2, propertyListing.address);
+            statement.setInt(3, propertyListing.nOfBedrooms);
+            statement.setInt(4, propertyListing.nOfBathrooms);
+            statement.setInt(5, propertyListing.size);
+            statement.setString(6, propertyListing.title);
+            statement.setString(7, propertyListing.description);
+            statement.setDouble(8, propertyListing.price);
+            statement.setString(9, propertyListing.status.toString());
+            statement.setString(10, propertyListing.furnitureType.toString());
+            statement.setString(11, propertyListing.ownerUsername);
+            statement.setString(12, propertyListing.managerUsername);
             int rs = statement.executeUpdate();
-
         }catch (Exception e) {
             //We will still print the exception error in the console to help us in the development
             e.printStackTrace();
             //But we will remove the above line, and display an alert to the user when the app is deployed
-            showAlert("Database Error", "Failed to connect to the database.");
+            Alerts.showAlert("Database Error", "Failed to connect to the database.",Alert.AlertType.ERROR);
         }
-
     }
 
     public static ArrayList<PropertyListing> getAllListings(){
@@ -88,7 +90,7 @@ public class PropertyListing {
             //We will still print the exception error in the console to help us in the development
             e.printStackTrace();
             //But we will remove the above line, and display an alert to the user when the app is deployed
-            showAlert("Database Error", "Failed to connect to the database.");
+            Alerts.showAlert("Database Error", "Failed to connect to the database.",Alert.AlertType.ERROR);
         }
         return listings;
     }
@@ -102,7 +104,7 @@ public class PropertyListing {
         } else if (role.equals("Owner")) {
             query = "SELECT * FROM property_listings WHERE ownerUsername = ?";
         } else {
-            // If other roles (like Renter), just return empty list
+            // If other roles (like Renter)
             return getAllListings();
         }
         try {
@@ -130,18 +132,11 @@ public class PropertyListing {
             //We will still print the exception error in the console to help us in the development
             e.printStackTrace();
             //But we will remove the above line, and display an alert to the user when the app is deployed
-            showAlert("Database Error", "Failed to connect to the database.");
+            Alerts.showAlert("Database Error", "Failed to connect to the database.",Alert.AlertType.ERROR);
         }
         return listings;
     }
 
-    private static void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.showAndWait();
-    }
 
     public String getAddress() {
         return address;
@@ -185,5 +180,13 @@ public class PropertyListing {
 
     public String getManagerUsername() {
         return managerUsername;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
     }
 }

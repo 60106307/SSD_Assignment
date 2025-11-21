@@ -54,17 +54,15 @@ public class MainPage {
             public void handle(ActionEvent event) {
                 //go to appointment page
                 AppointmentPage appointmentPage = new AppointmentPage(stage, username, role);
-                AppointmentPage.initializeComponents();
+                appointmentPage.initializeComponents();
             }
         });
 
-
-
         MainPageLayout.getChildren().addAll(
                 new Label("Welcome "+username+"!"),logout,
-                Listings
+                Listings,
+                Appointment
         );
-
 
         MainPageScene = new Scene(MainPageLayout, 500,500);
         stage.setTitle("Main Page");
