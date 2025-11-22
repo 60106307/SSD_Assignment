@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS property_listings (
     lastUpdateDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-CREATE TABLE appointment (
+CREATE TABLE IF NOT EXISTS appointment (
     id VARCHAR(100) PRIMARY KEY,
     renterUsername VARCHAR(50) NOT NULL,
     managerUsername VARCHAR(50) NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE appointment (
     status VARCHAR(20) NOT NULL
 );
 
-CREATE TABLE rent_payment (
+CREATE TABLE IF NOT EXISTS payment (
     id VARCHAR(100) PRIMARY KEY,
     listingId VARCHAR(100) NOT NULL,
     renterUsername VARCHAR(50) NOT NULL,
@@ -100,3 +100,13 @@ VALUES
 ('dd777777-1111-aaaa-2222-888899990000', 'renter13','manager9', 'owner',  '66778899-aabb-ccdd-eeff-001122334455', '2025-12-13', '11:15:00', '2025-11-22 14:00:00', '2025-11-22 14:00:00', 'PENDING'),
 ('ee888888-2222-bbbb-3333-999900001111', 'renter14','manager10','owner',  '778899aa-bbcc-ddee-ff00-112233445566', '2025-12-14', '13:45:00', '2025-11-22 14:10:00', '2025-11-22 14:10:00', 'PENDING'),
 ('ff999999-3333-cccc-4444-000011112222', 'renter15','manager',  'owner',  '8899aabb-ccdd-eeff-0011-223344556677', '2025-12-15', '15:30:00', '2025-11-22 14:20:00', '2025-11-22 14:20:00', 'PENDING');
+
+
+INSERT INTO payment
+(id, listingId, renterUsername, managerUsername, ownerUsername, amount, paymentDate, paymentMonth, paymentMethod, createdAt)
+VALUES
+('550e8400-e29b-41d4-a716-446655440000', 'a3f9c1ad-31b8-4a66-9c81-4860afebb350', 'renter', 'manager', 'owner', 12000, '2025-12-01', '2025-12', 'CASH', '2025-11-22 12:05:00'),
+('550e8400-e29b-41d4-a716-446655440001', 'b1d2f7c4-9cfa-4b6a-9a6f-4e1e2d3f5a6b', 'renter2', 'manager', 'owner2', 9000, '2025-12-02', '2025-12', 'CARD', '2025-11-22 12:15:00'),
+('550e8400-e29b-41d4-a716-446655440002', 'c8e4a2b0-5a7d-4f3b-8d9f-0a1b2c3d4e5f', 'renter3', 'manager', 'owner3', 35000, '2025-12-03', '2025-12', 'BANK_TRANSFER', '2025-11-22 12:25:00'),
+('550e8400-e29b-41d4-a716-446655440003', 'd9f1b3a2-6c5d-4a8f-9e2b-1c2d3e4f5a6b', 'renter4', 'manager', 'owner4', 7000, '2025-12-04', '2025-12', 'CASH', '2025-11-22 12:35:00'),
+('550e8400-e29b-41d4-a716-446655440004', 'e0a2b3c4-7d8e-4f1a-9b2c-2d3e4f5a6b7c', 'renter5', 'manager', 'owner5', 20000, '2025-12-05', '2025-12', 'CARD', '2025-11-22 12:45:00');

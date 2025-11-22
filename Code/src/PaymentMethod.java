@@ -1,5 +1,5 @@
 public enum PaymentMethod {
-    CREDIT_CARD,
-    DEBIT_CARD,
-    CASH
+    CARD,
+    CASH,
+    BANK_TRANSFER
 }
