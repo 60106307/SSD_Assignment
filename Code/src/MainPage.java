@@ -48,8 +48,8 @@ public class MainPage {
         });
 
         //appointment button
-        Button Appointment = new Button("View Appointment");
-        Appointment.setOnAction(new EventHandler<ActionEvent>() {
+        Button appointment = new Button("View Appointment");
+        appointment.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 //go to appointment page
@@ -57,11 +57,27 @@ public class MainPage {
                 appointmentPage.initializeComponents();
             }
         });
+        Button payment = new Button("View Payments");
+        payment.setVisible(false);
+        if (!role.equals("Renter")) {
+            //Payments button
+            payment.setVisible(true);
+            payment.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    //go to appointment page
+                    PaymentPage paymentPage = new PaymentPage(stage, username, role);
+                    paymentPage.initializeComponents();
+                }
+            });
+        }
 
         MainPageLayout.getChildren().addAll(
                 new Label("Welcome "+username+"!"),logout,
                 Listings,
-                Appointment
+                appointment,
+                payment
+
         );
 
         MainPageScene = new Scene(MainPageLayout, 500,500);
