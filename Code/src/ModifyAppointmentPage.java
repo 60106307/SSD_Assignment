@@ -73,7 +73,6 @@ public class ModifyAppointmentPage {
                     return;
                 } else {
                     Appointment.modifyAppointmentStatus(appointmentId, status);
-
                 }
             }
             //redirects to Appointment page

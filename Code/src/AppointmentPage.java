@@ -89,7 +89,7 @@ public class AppointmentPage {
                     String appointmentId = appointment.getId(); // the UUID stored in DB
                     try {
                         // Open the booking page
-                        ManageBookingPage page = new ManageBookingPage(stage, username, role, appointmentId);
+                        ModifyAppointmentPage page = new ModifyAppointmentPage(stage, username, role, appointmentId);
                         page.initializeComponents();
                     } catch (Exception ex) {
                         Alerts.showAlert("Error", "Unable to open manage booking page.", Alert.AlertType.ERROR);
