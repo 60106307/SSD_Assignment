@@ -22,14 +22,14 @@ public class MainPage {
         this.role = role;
     }
 
-    public void initializeComponents(){
+    public void initializeComponents() {
         VBox MainPageLayout = new VBox(10);
         MainPageLayout.setPadding(new Insets(10));
         //logout button
         Button logout = new Button("Logout");
         logout.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent event){
+            public void handle(ActionEvent event) {
                 //go to login page
                 UserLogin login = new UserLogin(stage);
                 login.initializeComponents();
@@ -65,22 +65,40 @@ public class MainPage {
             payment.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    //go to appointment page
+                    //go to Payment page
                     PaymentPage paymentPage = new PaymentPage(stage, username, role);
                     paymentPage.initializeComponents();
                 }
             });
         }
 
+        Button myListings = new Button("View My Listings");
+        myListings.setVisible(false);
+        if (role.equals("Renter")) {
+            //Payments button
+            myListings.setVisible(true);
+            myListings.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    //go to My Listings
+                    MyListingsPage myListingsPage = new MyListingsPage(stage, username, role);
+                    myListingsPage.initializeComponents();
+                }
+            });
+        }
+
+
+
         MainPageLayout.getChildren().addAll(
-                new Label("Welcome "+username+"!"),logout,
+                new Label("Welcome " + username + "!"), logout,
                 Listings,
                 appointment,
-                payment
+                payment,
+                myListings
 
         );
 
-        MainPageScene = new Scene(MainPageLayout, 500,500);
+        MainPageScene = new Scene(MainPageLayout, 500, 500);
         stage.setTitle("Main Page");
         stage.setScene(MainPageScene);
         stage.show();
