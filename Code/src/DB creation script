@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS property_listings (
 CREATE TABLE appointment (
     id VARCHAR(100) PRIMARY KEY,
     renterUsername VARCHAR(50) NOT NULL,
-    managerUsername VARCHAR(50),
+    managerUsername VARCHAR(50) NOT NULL,
     ownerUsername VARCHAR(50) NOT NULL,
     listingId VARCHAR(100) NOT NULL,
     appointmentDate DATE NOT NULL,
@@ -41,6 +41,19 @@ CREATE TABLE appointment (
     createdAt DATETIME NOT NULL,
     lastUpdated DATETIME NOT NULL,
     status VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE rent_payment (
+    id VARCHAR(100) PRIMARY KEY,
+    listingId VARCHAR(100) NOT NULL,
+    renterUsername VARCHAR(50) NOT NULL,
+    managerUsername VARCHAR(50) NOT NULL,
+    ownerUsername VARCHAR(50) NOT NULL,
+    amount DOUBLE NOT NULL,
+    paymentDate DATE NOT NULL,
+    paymentMonth VARCHAR(50) NOT NULL,
+    paymentMethod VARCHAR(100),
+    createdAt DATETIME NOT NULL
 );
 
 

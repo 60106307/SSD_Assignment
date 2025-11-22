@@ -79,9 +79,11 @@ public class ListingPage {
         );
         if (role.equals("Renter")) {
             table.getColumns().add(getBookAppointmentColumn());
-        }
-        else  {
+        } else {
             table.getColumns().add(getModifyListingColumn());
+            if (role.equals("Manager")) {
+                table.getColumns().add(getRecordPaymentColumn());
+            }
         }
 
 
@@ -147,13 +149,13 @@ public class ListingPage {
             //input validation
             if (
                     !ValidationUtils.validateNoScript(addAddress.getText())
-                    || !ValidationUtils.validateNoScript(addNOfBedrooms.getText())
-                    || !ValidationUtils.validateNoScript(addNOfBathrooms.getText())
-                    || !ValidationUtils.validateNoScript(addSize.getText())
-                    || !ValidationUtils.validateNoScript(addTitle.getText())
-                    || !ValidationUtils.validateNoScript(addDescription.getText())
-                    || !ValidationUtils.validateNoScript(addPrice.getText())
-                    || !ValidationUtils.validateNoScript(addOwnerUsername.getText())
+                            || !ValidationUtils.validateNoScript(addNOfBedrooms.getText())
+                            || !ValidationUtils.validateNoScript(addNOfBathrooms.getText())
+                            || !ValidationUtils.validateNoScript(addSize.getText())
+                            || !ValidationUtils.validateNoScript(addTitle.getText())
+                            || !ValidationUtils.validateNoScript(addDescription.getText())
+                            || !ValidationUtils.validateNoScript(addPrice.getText())
+                            || !ValidationUtils.validateNoScript(addOwnerUsername.getText())
             ) {
                 Alerts.showAlert("Invalid Input", "Input contains invalid characters!", Alert.AlertType.ERROR);
                 return;
@@ -242,6 +244,7 @@ public class ListingPage {
 
         bookAppointmentCol.setCellFactory(param -> new TableCell<PropertyListing, Void>() {
             private final Button btn = new Button("Book Appointment");
+
             {
                 btn.setOnAction(e -> {
                     PropertyListing listing = getTableView().getItems().get(getIndex());
@@ -269,11 +272,13 @@ public class ListingPage {
         bookAppointmentCol.setPrefWidth(120);
         return bookAppointmentCol;
     }
+
     private TableColumn<PropertyListing, Void> getModifyListingColumn() {
         TableColumn<PropertyListing, Void> modifyListingCol = new TableColumn<>("Modify Listing");
 
         modifyListingCol.setCellFactory(param -> new TableCell<PropertyListing, Void>() {
             private final Button btn = new Button("Modify Listing");
+
             {
                 btn.setOnAction(e -> {
                     PropertyListing listing = getTableView().getItems().get(getIndex());
@@ -299,7 +304,38 @@ public class ListingPage {
         });
         modifyListingCol.setPrefWidth(120);
         return modifyListingCol;
+    }
 
+    private TableColumn<PropertyListing, Void> getRecordPaymentColumn() {
+        TableColumn<PropertyListing, Void> recordPaymentCol = new TableColumn<>("Record Payment");
+
+        recordPaymentCol.setCellFactory(param -> new TableCell<PropertyListing, Void>() {
+            private final Button btn = new Button("Record Payment");
+            {
+                btn.setOnAction(e -> {
+                    PropertyListing listing = getTableView().getItems().get(getIndex());
+                    String listingId = listing.getId(); // the UUID stored in DB
+                    try {
+                        // Open the Payment Page
+                        RecordPaymentPage page = new RecordPaymentPage(stage, username, role, listingId);
+                        page.initializeComponents();
+                    } catch (Exception ex) {
+                        Alerts.showAlert("Error", "Unable to open Record Payment page.", Alert.AlertType.ERROR);
+                    }
+                });
+            }
+
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(btn);
+                }
+            }
+        });
+        recordPaymentCol.setPrefWidth(120);
+        return recordPaymentCol;
     }
 
 

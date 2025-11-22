@@ -159,7 +159,6 @@ public class Appointment {
             //But we will remove the above line, and display an alert to the user when the app is deployed
             Alerts.showAlert("Database Error", "Failed to connect to the database.", Alert.AlertType.ERROR);
         }
-
     }
 
 
