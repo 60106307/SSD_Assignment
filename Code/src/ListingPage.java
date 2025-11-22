@@ -218,7 +218,7 @@ public class ListingPage {
 
         ListingPageLayout.getChildren().add(1, table);
 
-        ListingPageScene = new Scene(ListingPageLayout, 700, 700);
+        ListingPageScene = new Scene(ListingPageLayout, 900, 700);
         stage.setTitle("Listings");
         stage.setScene(ListingPageScene);
         stage.show();

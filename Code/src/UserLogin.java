@@ -56,7 +56,7 @@ public class UserLogin {
         String password = passwordField.getText();
 
         if (!ValidationUtils.validateNoScript(username) && !ValidationUtils.validateNoScript(password)) {
-            showAlert("Invalid Input", "Input contains invalid characters!");
+            Alerts.showAlert("Invalid Input", "Input contains invalid characters!", Alert.AlertType.ERROR);
             return;
         }
 
@@ -84,26 +84,19 @@ public class UserLogin {
                     MainPage mainPage = new MainPage(stage, username, role);
                     mainPage.initializeComponents();
                 }else {
-                    showAlert("Authentication Failed", "Invalid username or password.");
+                    Alerts.showAlert("Authentication Failed", "Invalid username or password.", Alert.AlertType.ERROR);
                 }
 
             } else {
-                showAlert("Authentication Failed", "Something Went Wrong.");
+                Alerts.showAlert("Authentication Failed", "Something Went Wrong.", Alert.AlertType.ERROR);
             }
             DBUtils.closeConnection(con, statement);
         } catch (Exception e) {
             //We will still print the exception error in the console to help us in the development
             e.printStackTrace();
             //But we will remove the above line, and display an alert to the user when the app is deployed
-            showAlert("Database Error", "Failed to connect to the database.");
+            Alerts.showAlert("Database Error", "Failed to connect to the database.", Alert.AlertType.ERROR);
         }
     }
 
-    private void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.showAndWait();
-    }
 }

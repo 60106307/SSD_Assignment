@@ -93,23 +93,23 @@ public class UserSignUp {
         }
         //input validation for fields before adding to db
         if (!ValidationUtils.validateUsername(username)) {
-            showAlert("Invalid Input", "Username must be 2-10 lowercase letters, digits or hyphens.");
+            Alerts.showAlert("Invalid Input", "Username must be 2-10 lowercase letters, digits or hyphens.", Alert.AlertType.ERROR);
             return;
         }
 
         if (!ValidationUtils.validateEmail(email)) {
-            showAlert("Invalid Input", "Email is invalid!");
+            Alerts.showAlert("Invalid Input", "Email is invalid!", Alert.AlertType.ERROR);
             return;
         }
 
         if (!ValidationUtils.validateQaPhoneNumber(phone)) {
-            showAlert("Invalid Input", "Phone number must follow Qatar format (+974XXXXXXXX) Or (974)XXXXXXXX.");
+            Alerts.showAlert("Invalid Input", "Phone number must follow Qatar format (+974XXXXXXXX) Or (974)XXXXXXXX.", Alert.AlertType.ERROR);
             return;
         }
 
         //check that all fields have no scripts
         if (!ValidationUtils.validateNoScript(name) && !ValidationUtils.validateNoScript(email) && !ValidationUtils.validateNoScript(phone) && !ValidationUtils.validateNoScript(username) && !ValidationUtils.validateNoScript(password)) {
-            showAlert("Invalid Input", "Input contains invalid characters!");
+            Alerts.showAlert("Invalid Input", "Input contains invalid characters!", Alert.AlertType.ERROR);
             return;
         }
 
@@ -136,22 +136,15 @@ public class UserSignUp {
                 mainPage.initializeComponents();
 
             } else {
-                showAlert("Authentication Failed", "Failed to register the user");
+                Alerts.showAlert("Authentication Failed", "Failed to register the user", Alert.AlertType.ERROR);
             }
             DBUtils.closeConnection(con, statement);
         } catch (Exception e) {
             //We will still print the exception error in the console to help us in the development
             e.printStackTrace();
             //But we will remove the above line, and display an alert to the user when the app is deployed
-            showAlert("Database Error", "Failed to connect to the database.");
+            Alerts.showAlert("Database Error", "Failed to connect to the database.", Alert.AlertType.ERROR);
         }
     }
 
-    private void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.showAndWait();
-    }
 }

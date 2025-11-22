@@ -71,21 +71,15 @@ public class UserChangePassword {
             statement.setString(3, username);
             int result = statement.executeUpdate();
             if (result == 1) {
-                showAlert("Success", "Password successfully changed");
+                Alerts.showAlert("Success", "Password successfully changed", Alert.AlertType.INFORMATION);
             } else {
-                showAlert("Failure", "Failed to update password");
+                Alerts.showAlert("Failure", "Failed to update password", Alert.AlertType.ERROR);
             }
             DBUtils.closeConnection(con, statement);
         }catch(Exception e){
             e.printStackTrace();
-            showAlert("Database Error", "Failed to connect to the database.");
+            Alerts.showAlert("Database Error", "Failed to connect to the database.", Alert.AlertType.ERROR);
         }
     }
-    private void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.showAndWait();
-    }
+
 }

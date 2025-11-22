@@ -41,30 +41,32 @@ public class ValidationUtils {
     }
 
     public static boolean validateDate(String date) {
-        String regex = "^\\d{2}-\\d{2}-\\d{4}$";
+        String regex = "^\\d{4}-\\d{2}-\\d{2}$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(date);
 
-        String regex2 = "^\\d{2}/\\d{2}/\\d{4}$";
-        Pattern pattern2 = Pattern.compile(regex2);
-        Matcher matcher2 = pattern2.matcher(date);
-
-        String regex3 = "^\\d{2}/\\d{2}/\\d{2}$";
-        Pattern pattern3 = Pattern.compile(regex3);
-        Matcher matcher3 = pattern3.matcher(date);
-
-        String regex4 = "^\\d{2}-\\d{2}-\\d{2}$";
-        Pattern pattern4 = Pattern.compile(regex4);
-        Matcher matcher4 = pattern4.matcher(date);
-
-        if (matcher.matches() || matcher2.matches() || matcher3.matches() || matcher4.matches()) {
+        if (matcher.matches()) {
             return true;
         } else {
             return false;
         }
     }
 
+    public static boolean validateTime(String time) {
+        String regex = "^([01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(time);
+
+        if (matcher.matches()) {
+            return true;
+        }else  {
+            return false;
+        }
+    }
+
     public static boolean validateNoScript(String input) {
+
+        //if there are scripts return false
         String regex = "(?:<script>|</script>)";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(input);

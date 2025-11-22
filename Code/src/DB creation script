@@ -30,6 +30,20 @@ CREATE TABLE IF NOT EXISTS property_listings (
     lastUpdateDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
+CREATE TABLE appointment (
+    id VARCHAR(100) PRIMARY KEY,
+    renterUsername VARCHAR(50) NOT NULL,
+    managerUsername VARCHAR(50),
+    ownerUsername VARCHAR(50) NOT NULL,
+    listingId VARCHAR(100) NOT NULL,
+    appointmentDate DATE NOT NULL,
+    appointmentTime TIME NOT NULL,
+    createdAt DATETIME NOT NULL,
+    lastUpdated DATETIME NOT NULL,
+    status VARCHAR(20) NOT NULL
+);
+
+
 INSERT INTO `users` (`username`, `password`, `role`, `name`, `email`, `phone`, `salt`, `companyName`) VALUES
 ('manager', 'XdQqJl0i2G0jqgRLS2rD6FPek7vIe4XgX7tnWA3Wf54=', 'Manager', 'Manager Admin', 'admin@gmail.com', '+97412345678', 'iEMTIW/HkbxAvm6pELfWZlUnqLU=', 'ABH'),
 ('owner', 'ZF+YtghbWR4HMXfxeSsBG6VXE5drBM+mhOMv2zBoFXQ=', 'Owner', 'Rawana', 'rawana@gmail.com', '+97422223333', 'ZTvX0s2DlIln+bmYiQWo19jdKhI=', NULL),
@@ -37,21 +51,39 @@ INSERT INTO `users` (`username`, `password`, `role`, `name`, `email`, `phone`, `
 
 
 INSERT INTO property_listings
-(address, nOfBedrooms, nOfBathrooms, size, title, description, price, status, furnitureType, ownerUsername, managerUsername)
+(id, address, nOfBedrooms, nOfBathrooms, size, title, description, price, status, furnitureType, ownerUsername, managerUsername)
 VALUES
-('101 Main St, Doha', 3, 2, 120, 'Cozy Family Apartment', 'A quiet family-friendly apartment.', 12000, 'AVAILABLE', 'FURNISHED', 'owner', 'manager'),
-('102 West Bay, Doha', 2, 1, 80, 'Modern Studio', 'Ideal for young professionals.', 9000, 'RENTED', 'UNFURNISHED', 'owner2', 'manager'),
-('103 Pearl St, Doha', 4, 3, 200, 'Luxury Villa', 'Spacious villa with pool.', 35000, 'AVAILABLE', 'SEMI_FURNISHED', 'owner3', 'manager'),
-('104 Aspire Zone, Doha', 1, 1, 60, 'Compact Apartment', 'Perfect for students.', 7000, 'AVAILABLE', 'UNFURNISHED', 'owner4', 'manager'),
-('105 The Pearl, Doha', 3, 2, 150, 'Sea View Apartment', 'Stunning sea view.', 20000, 'RENTED', 'FURNISHED', 'owner5', 'manager'),
-('106 Al Waab St, Doha', 2, 2, 100, 'Quiet Neighborhood', 'Close to shops and schools.', 11000, 'AVAILABLE', 'FURNISHED', 'owner', 'manager6'),
-('107 Lusail City, Doha', 3, 2, 130, 'Modern Villa', 'Brand new villa with garden.', 25000, 'AVAILABLE', 'SEMI_FURNISHED', 'owner7', 'manager2'),
-('108 Al Sadd, Doha', 1, 1, 55, 'Studio Apartment', 'Perfect for working professionals.', 8000, 'RENTED', 'UNFURNISHED', 'owner', 'manager3'),
-('109 The Pearl, Doha', 4, 3, 180, 'Family Home', 'Spacious and bright.', 30000, 'AVAILABLE', 'FURNISHED', 'owner8', 'manager4'),
-('110 Al Rayyan, Doha', 2, 1, 90, 'Cozy Apartment', 'Affordable and comfortable.', 9500, 'AVAILABLE', 'UNFURNISHED', 'owner', 'manager5'),
-('111 Al Khor, Doha', 3, 2, 125, 'Sunny Apartment', 'Bright and airy.', 13000, 'AVAILABLE', 'FURNISHED', 'owner', 'manager7'),
-('112 Doha Marina, Doha', 2, 1, 85, 'Modern Flat', 'Close to the marina.', 10000, 'RENTED', 'SEMI_FURNISHED', 'owner', 'manager8'),
-('113 Al Wakra, Doha', 3, 2, 140, 'Spacious Apartment', 'Great for families.', 15000, 'AVAILABLE', 'FURNISHED', 'owner', 'manager9'),
-('114 Education City, Doha', 1, 1, 50, 'Student Studio', 'Ideal for university students.', 7000, 'RENTED', 'UNFURNISHED', 'owner', 'manager10'),
-('115 The Pearl, Doha', 4, 3, 200, 'Luxury Penthouse', 'Top-floor penthouse with balcony.', 40000, 'AVAILABLE', 'FURNISHED', 'owner', 'manager');
+('a3f9c1ad-31b8-4a66-9c81-4860afebb350', '101 Main St, Doha', 3, 2, 120, 'Cozy Family Apartment', 'A quiet family-friendly apartment.', 12000, 'AVAILABLE', 'FURNISHED', 'owner', 'manager'),
+('b1d2f7c4-9cfa-4b6a-9a6f-4e1e2d3f5a6b', '102 West Bay, Doha', 2, 1, 80, 'Modern Studio', 'Ideal for young professionals.', 9000, 'RENTED', 'UNFURNISHED', 'owner2', 'manager'),
+('c8e4a2b0-5a7d-4f3b-8d9f-0a1b2c3d4e5f', '103 Pearl St, Doha', 4, 3, 200, 'Luxury Villa', 'Spacious villa with pool.', 35000, 'AVAILABLE', 'SEMI_FURNISHED', 'owner3', 'manager'),
+('d9f1b3a2-6c5d-4a8f-9e2b-1c2d3e4f5a6b', '104 Aspire Zone, Doha', 1, 1, 60, 'Compact Apartment', 'Perfect for students.', 7000, 'AVAILABLE', 'UNFURNISHED', 'owner4', 'manager'),
+('e0a2b3c4-7d8e-4f1a-9b2c-2d3e4f5a6b7c', '105 The Pearl, Doha', 3, 2, 150, 'Sea View Apartment', 'Stunning sea view.', 20000, 'RENTED', 'FURNISHED', 'owner5', 'manager'),
+('f1b2c3d4-8e9f-4a0b-9c2d-3e4f5a6b7c8d', '106 Al Waab St, Doha', 2, 2, 100, 'Quiet Neighborhood', 'Close to shops and schools.', 11000, 'AVAILABLE', 'FURNISHED', 'owner', 'manager6'),
+('01234567-89ab-cdef-0123-456789abcdef', '107 Lusail City, Doha', 3, 2, 130, 'Modern Villa', 'Brand new villa with garden.', 25000, 'AVAILABLE', 'SEMI_FURNISHED', 'owner7', 'manager2'),
+('11223344-5566-7788-99aa-bbccddeeff00', '108 Al Sadd, Doha', 1, 1, 55, 'Studio Apartment', 'Perfect for working professionals.', 8000, 'RENTED', 'UNFURNISHED', 'owner', 'manager3'),
+('22334455-6677-8899-aabb-ccddeeff0011', '109 The Pearl, Doha', 4, 3, 180, 'Family Home', 'Spacious and bright.', 30000, 'AVAILABLE', 'FURNISHED', 'owner8', 'manager4'),
+('33445566-7788-99aa-bbcc-ddeeff001122', '110 Al Rayyan, Doha', 2, 1, 90, 'Cozy Apartment', 'Affordable and comfortable.', 9500, 'AVAILABLE', 'UNFURNISHED', 'owner', 'manager5'),
+('44556677-8899-aabb-ccdd-eeff00112233', '111 Al Khor, Doha', 3, 2, 125, 'Sunny Apartment', 'Bright and airy.', 13000, 'AVAILABLE', 'FURNISHED', 'owner7', 'manager7'),
+('55667788-99aa-bbcc-ddee-ff0011223344', '112 Doha Marina, Doha', 2, 1, 85, 'Modern Flat', 'Close to the marina.', 10000, 'RENTED', 'SEMI_FURNISHED', 'owner', 'manager8'),
+('66778899-aabb-ccdd-eeff-001122334455', '113 Al Wakra, Doha', 3, 2, 140, 'Spacious Apartment', 'Great for families.', 15000, 'AVAILABLE', 'FURNISHED', 'owner', 'manager9'),
+('778899aa-bbcc-ddee-ff00-112233445566', '114 Education City, Doha', 1, 1, 50, 'Student Studio', 'Ideal for university students.', 7000, 'RENTED', 'UNFURNISHED', 'owner', 'manager10'),
+('8899aabb-ccdd-eeff-0011-223344556677', '115 The Pearl, Doha', 4, 3, 200, 'Luxury Penthouse', 'Top-floor penthouse with balcony.', 40000, 'AVAILABLE', 'FURNISHED', 'owner', 'manager');
 
+INSERT INTO appointment
+(id, renterUsername, managerUsername, ownerUsername, listingId, appointmentDate, appointmentTime, createdAt, lastUpdated, status)
+VALUES
+('aa111111-1111-1111-1111-111111111111', 'renter',  'manager',  'owner',  'a3f9c1ad-31b8-4a66-9c81-4860afebb350', '2025-12-01', '10:00:00', '2025-11-22 12:00:00', '2025-11-22 12:00:00', 'PENDING'),
+('bb222222-2222-2222-2222-222222222222', 'renter2', 'manager',  'owner2', 'b1d2f7c4-9cfa-4b6a-9a6f-4e1e2d3f5a6b', '2025-12-02', '11:00:00', '2025-11-22 12:10:00', '2025-11-22 12:10:00', 'PENDING'),
+('cc333333-3333-3333-3333-333333333333', 'renter3', 'manager',  'owner3', 'c8e4a2b0-5a7d-4f3b-8d9f-0a1b2c3d4e5f', '2025-12-03', '12:00:00', '2025-11-22 12:20:00', '2025-11-22 12:20:00', 'PENDING'),
+('dd444444-4444-4444-4444-444444444444', 'renter4', 'manager',  'owner4', 'd9f1b3a2-6c5d-4a8f-9e2b-1c2d3e4f5a6b', '2025-12-04', '13:00:00', '2025-11-22 12:30:00', '2025-11-22 12:30:00', 'PENDING'),
+('ee555555-5555-5555-5555-555555555555', 'renter5', 'manager',  'owner5', 'e0a2b3c4-7d8e-4f1a-9b2c-2d3e4f5a6b7c', '2025-12-05', '14:00:00', '2025-11-22 12:40:00', '2025-11-22 12:40:00', 'PENDING'),
+('ff666666-6666-6666-6666-666666666666', 'renter6', 'manager6', 'owner',  'f1b2c3d4-8e9f-4a0b-9c2d-3e4f5a6b7c8d', '2025-12-06', '15:00:00', '2025-11-22 12:50:00', '2025-11-22 12:50:00', 'PENDING'),
+('77111111-aaaa-4444-bbbb-222233334444', 'renter7', 'manager2', 'owner7', '01234567-89ab-cdef-0123-456789abcdef', '2025-12-07', '09:00:00', '2025-11-22 13:00:00', '2025-11-22 13:00:00', 'PENDING'),
+('88222222-bbbb-5555-cccc-333344445555', 'renter8', 'manager3', 'owner',  '11223344-5566-7788-99aa-bbccddeeff00', '2025-12-08', '10:30:00', '2025-11-22 13:10:00', '2025-11-22 13:10:00', 'PENDING'),
+('99333333-cccc-6666-dddd-444455556666', 'renter9', 'manager4', 'owner8', '22334455-6677-8899-aabb-ccddeeff0011', '2025-12-09', '11:30:00', '2025-11-22 13:20:00', '2025-11-22 13:20:00', 'PENDING'),
+('aa444444-dddd-7777-eeee-555566667777', 'renter10','manager5', 'owner',  '33445566-7788-99aa-bbcc-ddeeff001122', '2025-12-10', '12:30:00', '2025-11-22 13:30:00', '2025-11-22 13:30:00', 'PENDING'),
+('bb555555-eeee-8888-ffff-666677778888', 'renter11','manager7', 'owner7', '44556677-8899-aabb-ccdd-eeff00112233', '2025-12-11', '09:30:00', '2025-11-22 13:40:00', '2025-11-22 13:40:00', 'PENDING'),
+('cc666666-ffff-9999-1111-777788889999', 'renter12','manager8', 'owner',  '55667788-99aa-bbcc-ddee-ff0011223344', '2025-12-12', '10:45:00', '2025-11-22 13:50:00', '2025-11-22 13:50:00', 'PENDING'),
+('dd777777-1111-aaaa-2222-888899990000', 'renter13','manager9', 'owner',  '66778899-aabb-ccdd-eeff-001122334455', '2025-12-13', '11:15:00', '2025-11-22 14:00:00', '2025-11-22 14:00:00', 'PENDING'),
+('ee888888-2222-bbbb-3333-999900001111', 'renter14','manager10','owner',  '778899aa-bbcc-ddee-ff00-112233445566', '2025-12-14', '13:45:00', '2025-11-22 14:10:00', '2025-11-22 14:10:00', 'PENDING'),
+('ff999999-3333-cccc-4444-000011112222', 'renter15','manager',  'owner',  '8899aabb-ccdd-eeff-0011-223344556677', '2025-12-15', '15:30:00', '2025-11-22 14:20:00', '2025-11-22 14:20:00', 'PENDING');
