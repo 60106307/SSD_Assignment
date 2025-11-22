@@ -65,7 +65,6 @@ public class ValidationUtils {
     }
 
     public static boolean validateNoScript(String input) {
-
         //if there are scripts return false
         String regex = "(?:<script>|</script>)";
         Pattern pattern = Pattern.compile(regex);

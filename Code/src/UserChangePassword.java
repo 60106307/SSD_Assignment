@@ -31,14 +31,18 @@ public class UserChangePassword {
         changePasswordButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event){
-                //changePassword();
                 try {
+
+                    //validate inputs
+                    if(!ValidationUtils.validateNoScript(newPasswordField.getText())){
+                        Alerts.showAlert("Error", "Please enter a valid password!", Alert.AlertType.ERROR);
+                        return;
+                    }
+
                     changePassword();
                     //redirect to login
                     UserLogin login = new UserLogin(stage);
                     login.initializeComponents();
-
-
                 } catch (NoSuchAlgorithmException e) {
                     throw new RuntimeException(e);
                 }
