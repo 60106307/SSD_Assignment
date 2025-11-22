@@ -162,10 +162,10 @@ public class PropertyListing {
     }
 
 
-    public static PropertyListing getListingById(String id){
+    public static PropertyListing getListingById(String id) {
         Connection con = DBUtils.establishConnection();
         String query = "SELECT * FROM property_listings WHERE id = ?";
-        PropertyListing listing=null;
+        PropertyListing listing = null;
         try {
             PreparedStatement statement = con.prepareStatement(query);
             statement.setString(1, id);
@@ -195,6 +195,23 @@ public class PropertyListing {
             Alerts.showAlert("Database Error", "Failed to connect to the database.", Alert.AlertType.ERROR);
         }
         return listing;
+    }
+
+    public static void modifyListingStatus(String listingId, Status status) {
+        Connection con = DBUtils.establishConnection();
+        String query = "UPDATE property_listings SET status = ? WHERE id = ?";
+        try {
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setString(1, status.toString());
+            statement.setString(2, listingId);
+            int rs = statement.executeUpdate();
+            Alerts.showAlert("Success", "Status was successfuly updated.", Alert.AlertType.INFORMATION);
+        }catch (Exception e) {
+            //We will still print the exception error in the console to help us in the development
+            e.printStackTrace();
+            //But we will remove the above line, and display an alert to the user when the app is deployed
+            Alerts.showAlert("Database Error", "Failed to connect to the database.", Alert.AlertType.ERROR);
+        }
     }
 
     public String getAddress() {

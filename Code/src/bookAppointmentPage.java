@@ -56,7 +56,7 @@ public class BookAppointmentPage {
 
         Label pageTitle = new Label("Book Viewing Appointment");
         pageTitle.setFont(new Font("Arial", 20));
-        AppointmentPageLayout.getChildren().addAll(pageTitle, mainPage, new Label(listingId));
+        AppointmentPageLayout.getChildren().addAll(pageTitle, mainPage);
 
         PropertyListing listing = PropertyListing.getListingById(listingId);
         Label title = new Label("New Appointment for: " + listing.getTitle());
