@@ -84,11 +84,13 @@ public class PropertyListing {
     }
 
     public static ArrayList<PropertyListing> getAllListings() {
+        //gets available listings for renter to view
         ArrayList<PropertyListing> listings = new ArrayList<>();
         Connection con = DBUtils.establishConnection();
-        String query = "SELECT * FROM property_listings";
+        String query = "SELECT * FROM property_listings WHERE status = ?;";
         try {
             PreparedStatement statement = con.prepareStatement(query);
+            statement.setString(1, Status.AVAILABLE.toString());
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {//this loop creates property listing objects for all listings then adds them to list and returns them
                 PropertyListing listing = new PropertyListing(

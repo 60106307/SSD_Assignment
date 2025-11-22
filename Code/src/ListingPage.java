@@ -80,6 +80,9 @@ public class ListingPage {
         if (role.equals("Renter")) {
             table.getColumns().add(getBookAppointmentColumn());
         }
+        else  {
+            table.getColumns().add(getModifyListingColumn());
+        }
 
 
         // Bind columns to PropertyListing fields
@@ -218,7 +221,7 @@ public class ListingPage {
 
         ListingPageLayout.getChildren().add(1, table);
 
-        ListingPageScene = new Scene(ListingPageLayout, 900, 700);
+        ListingPageScene = new Scene(ListingPageLayout, 1000, 700);
         stage.setTitle("Listings");
         stage.setScene(ListingPageScene);
         stage.show();
@@ -265,6 +268,38 @@ public class ListingPage {
         });
         bookAppointmentCol.setPrefWidth(120);
         return bookAppointmentCol;
+    }
+    private TableColumn<PropertyListing, Void> getModifyListingColumn() {
+        TableColumn<PropertyListing, Void> modifyListingCol = new TableColumn<>("Modify Listing");
+
+        modifyListingCol.setCellFactory(param -> new TableCell<PropertyListing, Void>() {
+            private final Button btn = new Button("Modify Listing");
+            {
+                btn.setOnAction(e -> {
+                    PropertyListing listing = getTableView().getItems().get(getIndex());
+                    String listingId = listing.getId(); // the UUID stored in DB
+                    try {
+                        // Open the booking page
+                        ModifyListingPage page = new ModifyListingPage(stage, username, role, listingId);
+                        page.initializeComponents();
+                    } catch (Exception ex) {
+                        Alerts.showAlert("Error", "Unable to open Modify listing page.", Alert.AlertType.ERROR);
+                    }
+                });
+            }
+
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(btn);
+                }
+            }
+        });
+        modifyListingCol.setPrefWidth(120);
+        return modifyListingCol;
+
     }
 
 

@@ -26,16 +26,6 @@ public class ManageBookingPage {
         VBox ManageBookingPageLayout = new VBox(10);
         ManageBookingPageLayout.setPadding(new Insets(10));
 
-//logout button
-        Button logout = new Button("Logout");
-        logout.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                //go to login page
-                UserLogin login = new UserLogin(stage);
-                login.initializeComponents();
-            }
-        });
 
         Button mainPage = new Button("Go back to Main Page");
         mainPage.setOnAction(new EventHandler<ActionEvent>() {

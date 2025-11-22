@@ -25,16 +25,6 @@ public class ModifyListingPage {
         VBox ModifyListingPageLayout = new VBox(10);
         ModifyListingPageLayout.setPadding(new Insets(10));
 
-//logout button
-        Button logout = new Button("Logout");
-        logout.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                //go to login page
-                UserLogin login = new UserLogin(stage);
-                login.initializeComponents();
-            }
-        });
 
         Button mainPage = new Button("Go back to Main Page");
         mainPage.setOnAction(new EventHandler<ActionEvent>() {
@@ -53,7 +43,7 @@ public class ModifyListingPage {
         );
 
         ModifyListingPageScene = new Scene(ModifyListingPageLayout, 900, 700);
-        stage.setTitle("Manage Booking");
+        stage.setTitle("Modify Listing");
         stage.setScene(ModifyListingPageScene);
         stage.show();
     }
