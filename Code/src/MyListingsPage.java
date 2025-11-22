@@ -110,4 +110,37 @@ public class MyListingsPage {
     private ArrayList<PropertyListing> getPayedPropertyListings(String role, String username) {
         return PropertyListing.getPayedPropertyListings(role, username);
     }
+
+    private TableColumn<PropertyListing, Void> getMaintenanceRequestColumn() {
+        TableColumn<PropertyListing, Void> maintenanceRequestCol = new TableColumn<>("Request Maintenance");
+
+        maintenanceRequestCol.setCellFactory(param -> new TableCell<PropertyListing, Void>() {
+            private final Button btn = new Button("Request Maintenance");
+
+            {
+                btn.setOnAction(e -> {
+                    PropertyListing listing = getTableView().getItems().get(getIndex());
+                    String listingId = listing.getId(); // the UUID stored in DB
+                    try {
+                        // Open the booking page
+                        MaintenanceRequestPage page = new MaintenanceRequestPage(stage, username, role, listingId);
+                        page.initializeComponents();
+                    } catch (Exception ex) {
+                        Alerts.showAlert("Error", "Unable to open Maintenance Request page.", Alert.AlertType.ERROR);
+                    }
+                });
+            }
+
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(btn);
+                }
+            }
+        });
+        maintenanceRequestCol.setPrefWidth(120);
+        return maintenanceRequestCol;
+    }
 }
