@@ -206,13 +206,57 @@ public class PropertyListing {
             statement.setString(2, listingId);
             int rs = statement.executeUpdate();
             Alerts.showAlert("Success", "Status was successfuly updated.", Alert.AlertType.INFORMATION);
-        }catch (Exception e) {
+        } catch (Exception e) {
             //We will still print the exception error in the console to help us in the development
             e.printStackTrace();
             //But we will remove the above line, and display an alert to the user when the app is deployed
             Alerts.showAlert("Database Error", "Failed to connect to the database.", Alert.AlertType.ERROR);
         }
     }
+
+    public static ArrayList<PropertyListing> getPayedPropertyListings(String role, String username) {
+        ArrayList<PropertyListing> listings = new ArrayList<>();
+        Connection con = DBUtils.establishConnection();
+        String query = "";
+        if (role.equals("Renter")) {
+            query = "SELECT * FROM property_listings JOIN payment ON property_listings.id = payment.listingId WHERE payment.renterUsername = ?;";
+        } else {
+            // If other roles
+            return listings;
+        }
+        try {
+            PreparedStatement statement = con.prepareStatement(query);
+
+            statement.setString(1, username); //puts the username of the renter
+
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) { //same as get all listings
+                PropertyListing listing = new PropertyListing(
+                        rs.getString("id"),
+                        rs.getString("address"),
+                        rs.getInt("nOfBedrooms"),
+                        rs.getInt("nOfBathrooms"),
+                        rs.getInt("size"),
+                        rs.getString("title"),
+                        rs.getString("description"),
+                        rs.getDouble("price"),
+                        Status.valueOf(rs.getString("status")),
+                        FurnitureType.valueOf(rs.getString("furnitureType")),
+                        rs.getString("ownerUsername"),
+                        rs.getString("managerUsername")
+                );
+                listings.add(listing);
+            }
+        } catch (Exception e) {
+            //We will still print the exception error in the console to help us in the development
+            e.printStackTrace();
+            //But we will remove the above line, and display an alert to the user when the app is deployed
+            Alerts.showAlert("Database Error", "Failed to connect to the database.", Alert.AlertType.ERROR);
+        }
+        return listings;
+
+    }
+
 
     public String getAddress() {
         return address;
