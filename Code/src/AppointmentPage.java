@@ -9,6 +9,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
 import java.util.ArrayList;
 
 public class AppointmentPage {
@@ -54,44 +55,40 @@ public class AppointmentPage {
 
         // get Appointments based on role
         //HERE
-//        ArrayList<Appointment> appointments = getAppointments(role);
+        ArrayList<Appointment> appointments = getAppointments(role, username);
 
         // Create table
         TableView<Appointment> table = new TableView<>();
 
-        //table.setEditable(true);
-//        TableColumn title = new TableColumn("Title");
-//        TableColumn description = new TableColumn("Description");
-//        TableColumn address = new TableColumn("Address");
-//        TableColumn bedrooms = new TableColumn("Bedrooms");
-//        TableColumn bathrooms = new TableColumn("Bathrooms");
-//        TableColumn size = new TableColumn("Size");
-//        TableColumn price = new TableColumn("Price");
-//        TableColumn status = new TableColumn("Status");
-//        TableColumn furnitureType = new TableColumn("Furniture type");
+        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        table.setPrefWidth(900);
 
-//        table.getColumns().addAll(
-//                title, description, address, bedrooms, bathrooms, size, price, status, furnitureType
-//        );
+        TableColumn<Appointment, String> renterCol = new TableColumn<>("Renter");
+        TableColumn<Appointment, String> managerCol = new TableColumn<>("Manager");
+        TableColumn<Appointment, String> ownerCol = new TableColumn<>("Owner");
+        TableColumn<Appointment, String> listingCol = new TableColumn<>("Listing");
+        TableColumn<Appointment, String> dateCol = new TableColumn<>("Date");
+        TableColumn<Appointment, String> timeCol = new TableColumn<>("Time");
+        TableColumn<Appointment, String> statusCol = new TableColumn<>("Status");
+
+        table.getColumns().addAll(
+                renterCol, managerCol, ownerCol, listingCol, dateCol, timeCol, statusCol
+        );
 
         // Bind columns to Appointment fields
-//        title.setCellValueFactory(new PropertyValueFactory<>("title"));
-//        description.setCellValueFactory(new PropertyValueFactory<>("description"));
-//        address.setCellValueFactory(new PropertyValueFactory<>("address"));
-//        bedrooms.setCellValueFactory(new PropertyValueFactory<>("nOfBedrooms"));
-//        bathrooms.setCellValueFactory(new PropertyValueFactory<>("nOfBathrooms"));
-//        size.setCellValueFactory(new PropertyValueFactory<>("size"));
-//        price.setCellValueFactory(new PropertyValueFactory<>("price"));
-//        status.setCellValueFactory(new PropertyValueFactory<>("status"));
-//        furnitureType.setCellValueFactory(new PropertyValueFactory<>("furnitureType"));
+        renterCol.setCellValueFactory(new PropertyValueFactory<>("renterUsername"));
+        managerCol.setCellValueFactory(new PropertyValueFactory<>("managerUsername"));
+        ownerCol.setCellValueFactory(new PropertyValueFactory<>("ownerUsername"));
+        listingCol.setCellValueFactory(new PropertyValueFactory<>("listingId"));
+        dateCol.setCellValueFactory(new PropertyValueFactory<>("appointmentDate"));
+        timeCol.setCellValueFactory(new PropertyValueFactory<>("appointmentTime"));
+        statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
 
         // Convert ArrayList to ObservableList
-        //HERE
-//        ObservableList<Appointment> data = FXCollections.observableArrayList(appointments);
+        ObservableList<Appointment> data = FXCollections.observableArrayList(appointments);
 
         // Add data to the table
-        //HERE
-//        table.setItems(data);
+        table.setItems(data);
 
 
         AppointmentPageLayout.getChildren().addAll(table);
@@ -103,17 +100,8 @@ public class AppointmentPage {
         stage.show();
     }
 
-    //HERE
 
-//    private ArrayList<Appointment> getAppointment(String role) {
-//        if (role.equals("Renter")) {
-//            //gets all Appointments
-//            return Appointment.getAllAppointments();
-//        } else {
-//            //gets his Appointments using get Appointment per role method (owner or manager)
-//            return Appointment.getAppointmentsByRole(role, username);
-//        }
-//    }
-
-
+    private ArrayList<Appointment> getAppointments(String role, String username) {
+        return Appointment.getAppointmentsByRole(role, username);
+    }
 }
