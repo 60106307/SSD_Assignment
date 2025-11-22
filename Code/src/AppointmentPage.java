@@ -49,9 +49,7 @@ public class AppointmentPage {
 
         Label pageTitle = new Label("Appointments");
         pageTitle.setFont(new Font("Arial", 20));
-        AppointmentPageLayout.getChildren().addAll(
-                pageTitle, mainPage
-        );
+        AppointmentPageLayout.getChildren().addAll(pageTitle, mainPage);
 
         // get Appointments based on role
         //HERE
@@ -70,10 +68,9 @@ public class AppointmentPage {
         TableColumn<Appointment, String> dateCol = new TableColumn<>("Date");
         TableColumn<Appointment, String> timeCol = new TableColumn<>("Time");
         TableColumn<Appointment, String> statusCol = new TableColumn<>("Status");
+        TableColumn<Appointment, Void> manageBooking = new TableColumn<>("Manage Booking");
 
-        table.getColumns().addAll(
-                renterCol, managerCol, ownerCol, listingCol, dateCol, timeCol, statusCol
-        );
+        table.getColumns().addAll(renterCol, managerCol, ownerCol, listingCol, dateCol, timeCol, statusCol, manageBooking);
 
         // Bind columns to Appointment fields
         renterCol.setCellValueFactory(new PropertyValueFactory<>("renterUsername"));
@@ -83,7 +80,34 @@ public class AppointmentPage {
         dateCol.setCellValueFactory(new PropertyValueFactory<>("appointmentDate"));
         timeCol.setCellValueFactory(new PropertyValueFactory<>("appointmentTime"));
         statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
+        // manage booking
+        manageBooking.setCellFactory(param -> new TableCell<Appointment, Void>() {
+            private final Button btn = new Button("Manage Booking");
+            {
+                btn.setOnAction(e -> {
+                    Appointment appointment = getTableView().getItems().get(getIndex());
+                    String appointmentId = appointment.getId(); // the UUID stored in DB
+                    try {
+                        // Open the booking page
+                        ManageBookingPage page = new ManageBookingPage(stage, username, role, appointmentId);
+                        page.initializeComponents();
+                    } catch (Exception ex) {
+                        Alerts.showAlert("Error", "Unable to open manage booking page.", Alert.AlertType.ERROR);
+                    }
+                });
+//                btn.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
+            }
 
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(btn);
+                }
+            }
+        });
+        manageBooking.setPrefWidth(120);
         // Convert ArrayList to ObservableList
         ObservableList<Appointment> data = FXCollections.observableArrayList(appointments);
 
@@ -94,7 +118,7 @@ public class AppointmentPage {
         AppointmentPageLayout.getChildren().addAll(table);
 
 
-        AppointmentPageScene = new Scene(AppointmentPageLayout, 600, 600);
+        AppointmentPageScene = new Scene(AppointmentPageLayout, 900, 700);
         stage.setTitle("Appointments");
         stage.setScene(AppointmentPageScene);
         stage.show();

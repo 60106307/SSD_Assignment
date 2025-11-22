@@ -8,22 +8,23 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-public class ModifyListingPage {
-    private Scene ModifyListingPageScene;
+public class ManageBookingPage {
+    private Scene ManageBookingPageScene;
     private Stage stage;
     private String username;
     private String role;
-    private String listingId;
+    private String appointmentId;
 
-    ModifyListingPage(Stage stage, String username, String role, String listingId) {
+    ManageBookingPage(Stage stage, String username, String role, String appointmentId) {
         this.stage = stage;
         this.username = username;
         this.role = role;
-        this.listingId = listingId;
+        this.appointmentId = appointmentId;
     }
+
     public void initializeComponents() {
-        VBox ModifyListingPageLayout = new VBox(10);
-        ModifyListingPageLayout.setPadding(new Insets(10));
+        VBox ManageBookingPageLayout = new VBox(10);
+        ManageBookingPageLayout.setPadding(new Insets(10));
 
 //logout button
         Button logout = new Button("Logout");
@@ -45,16 +46,16 @@ public class ModifyListingPage {
             }
         });
 
-        Label pageTitle = new Label("Modify Listing");
+        Label pageTitle = new Label("Manage Booking");
         pageTitle.setFont(new Font("Arial", 20));
 
-        ModifyListingPageLayout.getChildren().addAll(
+        ManageBookingPageLayout.getChildren().addAll(
                 pageTitle, mainPage
         );
 
-        ModifyListingPageScene = new Scene(ModifyListingPageLayout, 900, 700);
+        ManageBookingPageScene = new Scene(ManageBookingPageLayout, 900, 700);
         stage.setTitle("Manage Booking");
-        stage.setScene(ModifyListingPageScene);
+        stage.setScene(ManageBookingPageScene);
         stage.show();
     }
 }
