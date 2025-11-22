@@ -86,7 +86,7 @@ public class RecordPaymentPage {
         recordBtn.setOnAction(e -> {
             // Validation no empty
             if (amountField.getText().isEmpty() || renterField.getText().isEmpty() || methodField.getValue() == null) {
-                Alerts.showAlert("Error", "Amount is required.", Alert.AlertType.ERROR);
+                Alerts.showAlert("Error", "Inputs cannot be empty.", Alert.AlertType.ERROR);
                 return;
             }
 
@@ -123,12 +123,16 @@ public class RecordPaymentPage {
             );
 
             Payment.createPayment(payment);
+
             //redirects to listing page
             ListingPage listingPage = new ListingPage(stage, username, role);
             listingPage.initializeComponents();
 
         });
 
+        RecordPaymentPageLayout.getChildren().addAll(
+                amountLabel, amountField, methodLabel, methodField, renterLabel, renterField, recordBtn
+        );
 
         RecordPaymentPageScene = new Scene(RecordPaymentPageLayout, 900, 700);
         stage.setTitle("Record Payment");

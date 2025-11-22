@@ -88,7 +88,6 @@ public class MainPage {
         }
 
 
-
         MainPageLayout.getChildren().addAll(
                 new Label("Welcome " + username + "!"), logout,
                 Listings,

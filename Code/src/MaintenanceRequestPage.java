@@ -9,7 +9,6 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 
-
 public class MaintenanceRequestPage {
     private Scene MaintenanceRequestPageScene;
     private Stage stage;
