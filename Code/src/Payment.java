@@ -2,10 +2,12 @@ import javafx.scene.control.Alert;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class Payment {
@@ -72,6 +74,42 @@ public class Payment {
             Alerts.showAlert("Database Error", "Failed to connect to the database.", Alert.AlertType.ERROR);
         }
 
+    }
+    public static ArrayList<Payment> getPaymentsByRole(String role, String username) {
+        ArrayList<Payment> payments = new ArrayList<>();
+        Connection con = DBUtils.establishConnection();
+        String query = "";
+        if (role.equals("Manager")) {
+            query = "SELECT * FROM payment WHERE managerUsername = ?";
+        } else if (role.equals("Owner")) {
+            query = "SELECT * FROM payment WHERE ownerUsername = ?";
+        }
+        try {
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setString(1, username); //puts the username either manager or owner
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Payment payment = new Payment(
+                        rs.getString("id"),
+                        rs.getString("listingId"),
+                        rs.getString("renterUsername"),
+                        rs.getString("managerUsername"),
+                        rs.getString("ownerUsername"),
+                        rs.getDouble("amount"),
+                        rs.getDate("paymentDate").toLocalDate(),
+                        YearMonth.parse(rs.getString("paymentMonth")),
+                        PaymentMethod.valueOf(rs.getString("paymentMethod")),
+                        rs.getTimestamp("createdAt").toLocalDateTime()
+                );
+                payments.add(payment);
+            }
+        } catch (Exception e) {
+            //We will still print the exception error in the console to help us in the development
+            e.printStackTrace();
+            //But we will remove the above line, and display an alert to the user when the app is deployed
+            Alerts.showAlert("Database Error", "Failed to connect to the database.", Alert.AlertType.ERROR);
+        }
+        return payments;
     }
 
 

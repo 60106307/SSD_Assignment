@@ -49,10 +49,9 @@ public class AppointmentPage {
 
         Label pageTitle = new Label("Appointments");
         pageTitle.setFont(new Font("Arial", 20));
-        AppointmentPageLayout.getChildren().addAll(pageTitle, mainPage);
+        AppointmentPageLayout.getChildren().addAll(pageTitle, mainPage, logout);
 
         // get Appointments based on role
-        //HERE
         ArrayList<Appointment> appointments = getAppointments(role, username);
 
         // Create table
