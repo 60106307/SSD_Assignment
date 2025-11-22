@@ -82,7 +82,7 @@ public class Appointment {
             query = "SELECT * FROM appointment WHERE managerUsername = ?";
         } else if (role.equals("Owner")) {
             query = "SELECT * FROM appointment WHERE ownerUsername = ?";
-        } else if (role.equals("Renter")){
+        } else if (role.equals("Renter")) {
             query = "SELECT * FROM appointment WHERE renterUsername = ?";
         }
         try {
@@ -111,6 +111,55 @@ public class Appointment {
             Alerts.showAlert("Database Error", "Failed to connect to the database.", Alert.AlertType.ERROR);
         }
         return appointments;
+    }
+
+    public static Appointment getAppointmentById(String id) {
+        Connection con = DBUtils.establishConnection();
+        String query = "SELECT * FROM appointment WHERE id = ?";
+        Appointment appointment = null;
+        try {
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setString(1, id);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {// creates property listing objects and returns it
+                appointment = new Appointment(
+                        rs.getString("id"),
+                        rs.getString("renterUsername"),
+                        rs.getString("managerUsername"),
+                        rs.getString("ownerUsername"),
+                        rs.getDate("appointmentDate").toLocalDate(),
+                        rs.getTime("appointmentTime").toLocalTime(),
+                        rs.getTimestamp("createdAt").toLocalDateTime(),
+                        AppointmentStatus.valueOf(rs.getString("status")),
+                        rs.getString("listingId"),
+                        rs.getTimestamp("lastUpdated").toLocalDateTime()
+                );
+            }
+        } catch (Exception e) {
+            //We will still print the exception error in the console to help us in the development
+            e.printStackTrace();
+            //But we will remove the above line, and display an alert to the user when the app is deployed
+            Alerts.showAlert("Database Error", "Failed to connect to the database.", Alert.AlertType.ERROR);
+        }
+        return appointment;
+    }
+
+    public static void modifyAppointmentStatus(String id, AppointmentStatus status) {
+        Connection con = DBUtils.establishConnection();
+        String query = "UPDATE appointment SET status = ? WHERE id = ?";
+        try {
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setString(1, status.toString());
+            statement.setString(2, id);
+            int rs = statement.executeUpdate();
+            Alerts.showAlert("Success", "Status was successfuly updated.", Alert.AlertType.INFORMATION);
+        } catch (Exception e) {
+            //We will still print the exception error in the console to help us in the development
+            e.printStackTrace();
+            //But we will remove the above line, and display an alert to the user when the app is deployed
+            Alerts.showAlert("Database Error", "Failed to connect to the database.", Alert.AlertType.ERROR);
+        }
+
     }
 
 
