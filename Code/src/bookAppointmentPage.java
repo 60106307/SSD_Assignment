@@ -6,6 +6,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -54,7 +55,10 @@ public class BookAppointmentPage {
                 pageTitle, mainPage, new Label(listingId)
         );
 
+        PropertyListing listing= PropertyListing.getListingById(listingId);
+        Label title = new Label("New Appointment for: " + listing.getTitle());
 
+        HBox addForm = new HBox(10);
 
 
         BookAppointmentPageScene = new Scene(AppointmentPageLayout, 600, 600);

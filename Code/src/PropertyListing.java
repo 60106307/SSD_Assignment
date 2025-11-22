@@ -1,3 +1,4 @@
+import javafx.beans.property.Property;
 import javafx.scene.control.Alert;
 
 import java.sql.Array;
@@ -36,7 +37,26 @@ public class PropertyListing {
         this.managerUsername = managerUsername;
     }
 
-    public static void createPropertyListings(PropertyListing propertyListing){
+    public PropertyListing(String id, String address, int bedrooms, int bathrooms, int size,
+                           String title, String description, double price, Status status,
+                           FurnitureType furnitureType, String ownerUsername,
+                           String managerUsername) {
+
+        this.id = id;  // don't generate UUID, use the id from DB only for method get all listing and get listings by role
+        this.address = address;
+        this.nOfBedrooms = bedrooms;
+        this.nOfBathrooms = bathrooms;
+        this.size = size;
+        this.title = title;
+        this.description = description;
+        this.price = price;
+        this.status = status;
+        this.furnitureType = furnitureType;
+        this.ownerUsername = ownerUsername;
+        this.managerUsername = managerUsername;
+    }
+
+    public static void createPropertyListings(PropertyListing propertyListing) {
         //creates listing and adds it to Sql
         Connection con = DBUtils.establishConnection();
         String query = "INSERT INTO `property_listings` (`id`, `address`, `nOfBedrooms`, `nOfBathrooms`, `size`, `title`, `description`, `price`, `status`, `furnitureType`, `ownerUsername`, `managerUsername`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
@@ -55,23 +75,24 @@ public class PropertyListing {
             statement.setString(11, propertyListing.ownerUsername);
             statement.setString(12, propertyListing.managerUsername);
             int rs = statement.executeUpdate();
-        }catch (Exception e) {
+        } catch (Exception e) {
             //We will still print the exception error in the console to help us in the development
             e.printStackTrace();
             //But we will remove the above line, and display an alert to the user when the app is deployed
-            Alerts.showAlert("Database Error", "Failed to connect to the database.",Alert.AlertType.ERROR);
+            Alerts.showAlert("Database Error", "Failed to connect to the database.", Alert.AlertType.ERROR);
         }
     }
 
-    public static ArrayList<PropertyListing> getAllListings(){
+    public static ArrayList<PropertyListing> getAllListings() {
         ArrayList<PropertyListing> listings = new ArrayList<>();
         Connection con = DBUtils.establishConnection();
         String query = "SELECT * FROM property_listings";
-        try{
+        try {
             PreparedStatement statement = con.prepareStatement(query);
             ResultSet rs = statement.executeQuery();
-            while(rs.next()){//this loop creates property listing objects for all listings then adds them to list and returns them
+            while (rs.next()) {//this loop creates property listing objects for all listings then adds them to list and returns them
                 PropertyListing listing = new PropertyListing(
+                        rs.getString("id"),
                         rs.getString("address"),
                         rs.getInt("nOfBedrooms"),
                         rs.getInt("nOfBathrooms"),
@@ -86,16 +107,16 @@ public class PropertyListing {
                 );
                 listings.add(listing);
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             //We will still print the exception error in the console to help us in the development
             e.printStackTrace();
             //But we will remove the above line, and display an alert to the user when the app is deployed
-            Alerts.showAlert("Database Error", "Failed to connect to the database.",Alert.AlertType.ERROR);
+            Alerts.showAlert("Database Error", "Failed to connect to the database.", Alert.AlertType.ERROR);
         }
         return listings;
     }
 
-    public static ArrayList<PropertyListing> getListingsByRole(String role, String  username){
+    public static ArrayList<PropertyListing> getListingsByRole(String role, String username) {
         ArrayList<PropertyListing> listings = new ArrayList<>();
         Connection con = DBUtils.establishConnection();
         String query = "";
@@ -114,6 +135,7 @@ public class PropertyListing {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) { //same as get all listings
                 PropertyListing listing = new PropertyListing(
+                        rs.getString("id"),
                         rs.getString("address"),
                         rs.getInt("nOfBedrooms"),
                         rs.getInt("nOfBathrooms"),
@@ -128,15 +150,50 @@ public class PropertyListing {
                 );
                 listings.add(listing);
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             //We will still print the exception error in the console to help us in the development
             e.printStackTrace();
             //But we will remove the above line, and display an alert to the user when the app is deployed
-            Alerts.showAlert("Database Error", "Failed to connect to the database.",Alert.AlertType.ERROR);
+            Alerts.showAlert("Database Error", "Failed to connect to the database.", Alert.AlertType.ERROR);
         }
         return listings;
     }
 
+
+    public static PropertyListing getListingById(String id){
+        Connection con = DBUtils.establishConnection();
+        String query = "SELECT * FROM property_listings WHERE id = ?";
+        PropertyListing listing=null;
+        try {
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setString(1, id);
+
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {// creates property listing objects and returns it
+                listing = new PropertyListing(
+                        rs.getString("id"),
+                        rs.getString("address"),
+                        rs.getInt("nOfBedrooms"),
+                        rs.getInt("nOfBathrooms"),
+                        rs.getInt("size"),
+                        rs.getString("title"),
+                        rs.getString("description"),
+                        rs.getDouble("price"),
+                        Status.valueOf(rs.getString("status")),
+                        FurnitureType.valueOf(rs.getString("furnitureType")),
+                        rs.getString("ownerUsername"),
+                        rs.getString("managerUsername")
+                );
+                return listing;
+            }
+        } catch (Exception e) {
+            //We will still print the exception error in the console to help us in the development
+            e.printStackTrace();
+            //But we will remove the above line, and display an alert to the user when the app is deployed
+            Alerts.showAlert("Database Error", "Failed to connect to the database.", Alert.AlertType.ERROR);
+        }
+        return listing;
+    }
 
     public String getAddress() {
         return address;

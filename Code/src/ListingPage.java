@@ -239,12 +239,10 @@ public class ListingPage {
 
         bookAppointmentCol.setCellFactory(param -> new TableCell<PropertyListing, Void>() {
             private final Button btn = new Button("Book Appointment");
-
             {
                 btn.setOnAction(e -> {
                     PropertyListing listing = getTableView().getItems().get(getIndex());
                     String listingId = listing.getId(); // the UUID stored in DB
-
                     try {
                         // Open the booking page
                         BookAppointmentPage page = new BookAppointmentPage(stage, username, role, listingId);
