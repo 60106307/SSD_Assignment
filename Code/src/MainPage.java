@@ -1,3 +1,4 @@
+import com.sun.tools.javac.Main;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -88,12 +89,29 @@ public class MainPage {
         }
 
 
+        Button maintenance = new Button("View Maintenance Requests");
+        maintenance.setVisible(false);
+        if (role.equals("Renter") || role.equals("Owner")) {
+            //Payments button
+            maintenance.setVisible(true);
+            maintenance.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    //go to My Listings
+                    MaintenancePage maintenancePage = new MaintenancePage(stage, username, role);
+                    maintenancePage.initializeComponents();
+                }
+            });
+        }
+
+
         MainPageLayout.getChildren().addAll(
                 new Label("Welcome " + username + "!"), logout,
                 Listings,
                 appointment,
                 payment,
-                myListings
+                myListings,
+                maintenance
 
         );
 

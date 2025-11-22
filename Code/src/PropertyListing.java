@@ -1,7 +1,5 @@
-import javafx.beans.property.Property;
 import javafx.scene.control.Alert;
 
-import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,12 +15,12 @@ public class PropertyListing {
     private String title;
     private String description;
     private double price;
-    private Status status;
+    private ListingStatus listingStatus;
     private FurnitureType furnitureType;
     private String ownerUsername;
     private String managerUsername;
 
-    public PropertyListing(String address, int nOfBedrooms, int nOfBathrooms, int size, String title, String description, double price, Status status, FurnitureType furnitureType, String ownerUsername, String managerUsername) {
+    public PropertyListing(String address, int nOfBedrooms, int nOfBathrooms, int size, String title, String description, double price, ListingStatus listingStatus, FurnitureType furnitureType, String ownerUsername, String managerUsername) {
         this.id = UUID.randomUUID().toString();
         this.address = address;
         this.nOfBedrooms = nOfBedrooms;
@@ -31,14 +29,14 @@ public class PropertyListing {
         this.title = title;
         this.description = description;
         this.price = price;
-        this.status = status;
+        this.listingStatus = listingStatus;
         this.furnitureType = furnitureType;
         this.ownerUsername = ownerUsername;
         this.managerUsername = managerUsername;
     }
 
     public PropertyListing(String id, String address, int bedrooms, int bathrooms, int size,
-                           String title, String description, double price, Status status,
+                           String title, String description, double price, ListingStatus listingStatus,
                            FurnitureType furnitureType, String ownerUsername,
                            String managerUsername) {
 
@@ -50,7 +48,7 @@ public class PropertyListing {
         this.title = title;
         this.description = description;
         this.price = price;
-        this.status = status;
+        this.listingStatus = listingStatus;
         this.furnitureType = furnitureType;
         this.ownerUsername = ownerUsername;
         this.managerUsername = managerUsername;
@@ -70,7 +68,7 @@ public class PropertyListing {
             statement.setString(6, propertyListing.title);
             statement.setString(7, propertyListing.description);
             statement.setDouble(8, propertyListing.price);
-            statement.setString(9, propertyListing.status.toString());
+            statement.setString(9, propertyListing.listingStatus.toString());
             statement.setString(10, propertyListing.furnitureType.toString());
             statement.setString(11, propertyListing.ownerUsername);
             statement.setString(12, propertyListing.managerUsername);
@@ -90,7 +88,7 @@ public class PropertyListing {
         String query = "SELECT * FROM property_listings WHERE status = ?;";
         try {
             PreparedStatement statement = con.prepareStatement(query);
-            statement.setString(1, Status.AVAILABLE.toString());
+            statement.setString(1, ListingStatus.AVAILABLE.toString());
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {//this loop creates property listing objects for all listings then adds them to list and returns them
                 PropertyListing listing = new PropertyListing(
@@ -102,7 +100,7 @@ public class PropertyListing {
                         rs.getString("title"),
                         rs.getString("description"),
                         rs.getDouble("price"),
-                        Status.valueOf(rs.getString("status")),
+                        ListingStatus.valueOf(rs.getString("status")),
                         FurnitureType.valueOf(rs.getString("furnitureType")),
                         rs.getString("ownerUsername"),
                         rs.getString("managerUsername")
@@ -145,7 +143,7 @@ public class PropertyListing {
                         rs.getString("title"),
                         rs.getString("description"),
                         rs.getDouble("price"),
-                        Status.valueOf(rs.getString("status")),
+                        ListingStatus.valueOf(rs.getString("status")),
                         FurnitureType.valueOf(rs.getString("furnitureType")),
                         rs.getString("ownerUsername"),
                         rs.getString("managerUsername")
@@ -181,7 +179,7 @@ public class PropertyListing {
                         rs.getString("title"),
                         rs.getString("description"),
                         rs.getDouble("price"),
-                        Status.valueOf(rs.getString("status")),
+                        ListingStatus.valueOf(rs.getString("status")),
                         FurnitureType.valueOf(rs.getString("furnitureType")),
                         rs.getString("ownerUsername"),
                         rs.getString("managerUsername")
@@ -197,12 +195,12 @@ public class PropertyListing {
         return listing;
     }
 
-    public static void modifyListingStatus(String listingId, Status status) {
+    public static void modifyListingStatus(String listingId, ListingStatus listingStatus) {
         Connection con = DBUtils.establishConnection();
         String query = "UPDATE property_listings SET status = ? WHERE id = ?";
         try {
             PreparedStatement statement = con.prepareStatement(query);
-            statement.setString(1, status.toString());
+            statement.setString(1, listingStatus.toString());
             statement.setString(2, listingId);
             int rs = statement.executeUpdate();
             Alerts.showAlert("Success", "Status was successfuly updated.", Alert.AlertType.INFORMATION);
@@ -240,7 +238,7 @@ public class PropertyListing {
                         rs.getString("title"),
                         rs.getString("description"),
                         rs.getDouble("price"),
-                        Status.valueOf(rs.getString("status")),
+                        ListingStatus.valueOf(rs.getString("status")),
                         FurnitureType.valueOf(rs.getString("furnitureType")),
                         rs.getString("ownerUsername"),
                         rs.getString("managerUsername")
@@ -286,8 +284,8 @@ public class PropertyListing {
         return price;
     }
 
-    public Status getStatus() {
-        return status;
+    public ListingStatus getStatus() {
+        return listingStatus;
     }
 
     public FurnitureType getFurnitureType() {

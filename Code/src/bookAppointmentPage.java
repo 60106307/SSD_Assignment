@@ -111,7 +111,7 @@ public class BookAppointmentPage {
 
             Alerts.showAlert("Success", "Appointment booked successfully!", Alert.AlertType.INFORMATION);
 
-            //go to appointment page
+            //redirect to appointment page
             AppointmentPage appointmentPage = new AppointmentPage(stage, username, role);
             appointmentPage.initializeComponents();
             }

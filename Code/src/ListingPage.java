@@ -173,7 +173,7 @@ public class ListingPage {
                                     addTitle.getText(),
                                     addDescription.getText(),
                                     Double.parseDouble(addPrice.getText()),
-                                    Status.AVAILABLE,
+                                    ListingStatus.AVAILABLE,
                                     FurnitureType.valueOf(addFurnitureType.getValue()),
                                     addOwnerUsername.getText(),
                                     username

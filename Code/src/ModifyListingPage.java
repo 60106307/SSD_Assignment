@@ -57,7 +57,7 @@ public class ModifyListingPage {
         //fields for modifying the listing's status
         Label statusLabel = new Label("Select Status:");
         ComboBox<String> statusField = new ComboBox<>();
-        statusField.getItems().addAll(Status.AVAILABLE.toString(), Status.RENTED.toString());
+        statusField.getItems().addAll(ListingStatus.AVAILABLE.toString(), ListingStatus.RENTED.toString());
 
         Button modifyButton = new Button("Modify Listing");
         modifyButton.setOnAction(e -> {
@@ -65,9 +65,9 @@ public class ModifyListingPage {
                 Alerts.showAlert("Invalid Input", "Input cannot be null", Alert.AlertType.ERROR);
                 return;
             }
-            Status status = Status.valueOf(statusField.getValue());
+            ListingStatus listingStatus = ListingStatus.valueOf(statusField.getValue());
             if (!role.equals("Renter")) {
-                PropertyListing.modifyListingStatus(listingId, status);
+                PropertyListing.modifyListingStatus(listingId, listingStatus);
                 //redirects to listing page
                 ListingPage listingPage = new ListingPage(stage, username, role);
                 listingPage.initializeComponents();
