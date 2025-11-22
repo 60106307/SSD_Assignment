@@ -1,12 +1,9 @@
-import com.sun.tools.javac.Main;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -36,6 +33,18 @@ public class MainPage {
                 login.initializeComponents();
             }
         });
+
+        //change password button
+        Button changePassword = new Button("Change Password");
+        changePassword.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                //go to change Password
+                UserChangePassword changePassword1 = new UserChangePassword(stage, username);
+                changePassword1.initializeComponents();
+            }
+        });
+
 
         //listing button
         Button Listings = new Button("View Listings");
@@ -106,7 +115,7 @@ public class MainPage {
 
 
         MainPageLayout.getChildren().addAll(
-                new Label("Welcome " + username + "!"), logout,
+                new Label("Welcome " + username + "!"), logout, changePassword,
                 Listings,
                 appointment,
                 payment,

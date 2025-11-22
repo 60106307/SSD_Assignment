@@ -34,6 +34,11 @@ public class UserChangePassword {
                 //changePassword();
                 try {
                     changePassword();
+                    //redirect to login
+                    UserLogin login = new UserLogin(stage);
+                    login.initializeComponents();
+
+
                 } catch (NoSuchAlgorithmException e) {
                     throw new RuntimeException(e);
                 }
@@ -49,6 +54,7 @@ public class UserChangePassword {
             }
         });
         changePasswordLayout.getChildren().addAll(new Label("Welcome " + username), new Label("New Password:"), newPasswordField, changePasswordButton, logout);
+
 
         changePasswordScene = new Scene(changePasswordLayout, 300, 300);
         stage.setTitle("Change Password");
